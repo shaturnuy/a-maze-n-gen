@@ -13,9 +13,9 @@ class BaseWidgetMenu : public QWidget
 
 private:
 
-    const int       TITLE_LABEL_SIZE        {250};
-    const int       PUSH_BUTTON_SIZE        {150};
-    const QString   GROUP_BOX_STYLE_SHEET   {
+    const int TITLE_LABEL_SIZE {250};
+    const int PUSH_BUTTON_SIZE {150};
+    const QString GROUP_BOX_STYLE_SHEET {
         "QGroupBox {border-style: double;"
                    "border-width: 3px;}"
         "QLabel    {border-bottom-width: 1px;"
@@ -26,9 +26,9 @@ private:
                    "font-size: 14pt;}"};
 
 
-    QLabel          *titleLabel_            {nullptr};
-    QVBoxLayout     *menuLayout_            {nullptr};
-    QGroupBox       *menuGroupBox_          {nullptr};
+    QLabel *titleLabel_ {nullptr};
+    QVBoxLayout *menuLayout_ {nullptr};
+    QGroupBox *menuGroupBox_ {nullptr};
 
 public:
 
@@ -40,4 +40,5 @@ public:
     void addRadioButton(QRadioButton *radioButton, bool isFirstRadioButtonInList = false);
     void addPushButton(QPushButton *pushButton);
 
+    virtual ~BaseWidgetMenu() {};
 };

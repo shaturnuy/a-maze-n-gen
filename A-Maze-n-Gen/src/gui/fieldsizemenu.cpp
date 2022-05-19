@@ -3,9 +3,9 @@
 FieldSizeMenu::FieldSizeMenu(QWidget *parent) noexcept
     : BaseWidgetMenu(parent)
 {
-    sizeFirstRadio_ = new QRadioButton;
-    sizeSecondRadio_ = new QRadioButton;
-    sizeThirdRadio_ = new QRadioButton;
+    sizeFirstRadio_ = new QRadioButton("5x5");
+    sizeSecondRadio_ = new QRadioButton("10x10");
+    sizeThirdRadio_ = new QRadioButton("15x15");
 
     FieldSizeMenu::initializeMenu();
 
@@ -19,14 +19,7 @@ void FieldSizeMenu::initializeMenu()
 {
     setTextLabel("Field Size");
 
-    addRadioButton(sizeFirstRadio_, 5, true);
-    addRadioButton(sizeSecondRadio_, 10);
-    addRadioButton(sizeThirdRadio_, 15);
-}
-
-/*------------------------------------------------------------------------------------------------*/
-void addRadioButton(QRadioButton *radioButton, unsigned int sizeOfMazeGrid, bool isFirstRadioButtonInList = false)
-{
-    BaseWidgetMenu::addRadioButton(radioButton, isFirstRadioButtonInList);
-    radioButton->setText(QString::number(sizeOfMazeGrid) + " x " + QString::number(sizeOfMazeGrid));
+    addRadioButton(sizeFirstRadio_, true);
+    addRadioButton(sizeSecondRadio_);
+    addRadioButton(sizeThirdRadio_);
 }

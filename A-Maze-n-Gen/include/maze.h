@@ -1,9 +1,9 @@
 #pragma once
 
 #include "cell.h"
-#include "include/gui/mainwindow.h"
 
 #include <QVector>
+#include <QGraphicsScene>
 #include <QGraphicsLineItem>
 #include <QLineF>
 #include <QLine>

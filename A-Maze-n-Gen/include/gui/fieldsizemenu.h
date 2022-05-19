@@ -18,6 +18,12 @@ public:
 
     explicit FieldSizeMenu(QWidget *parent = nullptr) noexcept;
 
-    void addRadioButton(QRadioButton *radioButton, unsigned int sizeOfMazeGrid, bool isFirstRadioButtonInList = false);
+/*  Попытка сделать полиморфично-красивый метод была провалена
+    Ни одно решение из инета не помогло, скорее всего здесь какая-то базовая ошибка в логике, которую я не вижу
+    Потрачено слишком много времени на это, возвращаю старое некрасивое (зато рабочее) решение
+    Заниматься этим в самую последнюю очередь, если будут идеи
+    void addRadioButton(QRadioButton *radioButton, unsigned int sizeOfMazeGrid, bool isFirstRadioButtonInList = false); */
     void initializeMenu();
+
+    virtual ~FieldSizeMenu() {};
 };

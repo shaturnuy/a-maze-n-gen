@@ -19,12 +19,12 @@ class MainWindow : public QWidget
 
 private:
 
-    const int               WINDOW_SIZE_WIDTH           {600};
-    const int               WINDOW_SIZE_HEIGHT          {300};
+    const int WINDOW_SIZE_WIDTH {600};
+    const int WINDOW_SIZE_HEIGHT {300};
 
-    FieldSizeMenu           *fieldSizeWidget_           {nullptr};
-    AlgorithmGeneratorMenu  *algorithmGeneratorWidget_  {nullptr};
-    QVBoxLayout             *sidebarLayout_             {nullptr};
+    FieldSizeMenu *fieldSizeWidget_ {nullptr};
+    AlgorithmGeneratorMenu *algorithmGeneratorWidget_ {nullptr};
+    QVBoxLayout *sidebarLayout_ {nullptr};
 
 public:
 
