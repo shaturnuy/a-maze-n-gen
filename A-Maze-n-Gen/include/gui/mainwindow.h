@@ -2,6 +2,7 @@
 
 #include "algorithmgeneratormenu.h"
 #include "fieldsizemenu.h"
+#include "mazearea.h"
 #include "maze.h"
 
 #include <QWidget>
@@ -18,15 +19,13 @@ class MainWindow : public QWidget
     Q_OBJECT
 
 private:
-
-    const int WINDOW_SIZE_WIDTH {600};
-    const int WINDOW_SIZE_HEIGHT {300};
-
     FieldSizeMenu *fieldSizeWidget_ {nullptr};
     AlgorithmGeneratorMenu *algorithmGeneratorWidget_ {nullptr};
     QVBoxLayout *sidebarLayout_ {nullptr};
 
-public:
+    MazeArea *mazeGrid_ {nullptr};
 
+public:
     explicit MainWindow(QWidget *parent = nullptr);
+    void initializeSidebar();
 };

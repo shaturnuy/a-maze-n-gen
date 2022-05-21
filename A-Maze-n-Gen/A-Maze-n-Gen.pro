@@ -11,18 +11,22 @@ SOURCES += \
     src/main.cpp \
     src/cell.cpp \
     src/maze.cpp \
+    src/mazesizeradiobutton.cpp \
     src/gui/mainwindow.cpp \
     src/gui/basewidgetmenu.cpp \
     src/gui/algorithmgeneratormenu.cpp \
-    src/gui/fieldsizemenu.cpp
+    src/gui/fieldsizemenu.cpp \
+    src/gui/mazearea.cpp
 
 HEADERS += \
     include/cell.h \
     include/maze.h \
+    include/mazesizeradiobutton.h \
     include/gui/algorithmgeneratormenu.h \
     include/gui/basewidgetmenu.h \
     include/gui/fieldsizemenu.h \
-    include/gui/mainwindow.h
+    include/gui/mainwindow.h \
+    include/gui/mazearea.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -1,25 +1,28 @@
 #include "maze.h"
 
-Maze::Maze(QGraphicsScene *scene)
+Maze::Maze(QGraphicsScene *scene, unsigned int mazeGridSizePx, unsigned int mazeSize)
+    : mazeGridSizePx_(mazeGridSizePx),
+      mazeSize_(mazeSize),
+      cellSize_(mazeGridSizePx / mazeSize)
 {
-    getCellGrid();
+    getPointsOfGrid();
 
-    for (int curRow {0}; curRow < rows; curRow++)
+    for (unsigned row {0}; row < mazeSize_; row++)
     {
         QVector<QLineF> curColLines {};
-        for (int curCol {0}; curCol < columns; curCol++)
+        for (unsigned col {0}; col < mazeSize_; col++)
         {
-            curColLines.push_back(QLineF(QLine(cellGrid[curRow][curCol], cellGrid[curRow][curCol + 1])));
-            curColLines.push_back(QLineF(QLine(cellGrid[curRow][curCol], cellGrid[curRow + 1][curCol])));
-            curColLines.push_back(QLineF(QLine(cellGrid[curRow + 1][curCol], cellGrid[curRow + 1][curCol + 1])));
-            curColLines.push_back(QLineF(QLine(cellGrid[curRow][curCol + 1], cellGrid[curRow + 1][curCol + 1])));
+            curColLines.push_back(QLineF(QLine(cellGrid[row][col], cellGrid[row][col + 1])));
+            curColLines.push_back(QLineF(QLine(cellGrid[row][col], cellGrid[row + 1][col])));
+            curColLines.push_back(QLineF(QLine(cellGrid[row + 1][col], cellGrid[row + 1][col + 1])));
+            curColLines.push_back(QLineF(QLine(cellGrid[row][col + 1], cellGrid[row + 1][col + 1])));
         }
         cellWalls.push_back(curColLines);
     }
 
-    for (auto i = 0; i < 5; i++)
+    for (unsigned i = 0; i < mazeSize_; i++)
     {
-        for (auto j = 0; j < 20; j++)
+        for (unsigned j = 0; j < mazeSize_ * 4; j++)
         {
             scene->addItem(new QGraphicsLineItem(cellWalls[i][j]));
         }
@@ -27,15 +30,20 @@ Maze::Maze(QGraphicsScene *scene)
 }
 
 /*------------------------------------------------------------------------------------------------*/
-void Maze::getCellGrid()
+void Maze::getPointsOfGrid()
 {
-    for (int curRow {0}; curRow <= rows; curRow++)
+    for (unsigned row {0}; row <= mazeSize_; row++)
     {
         QVector<QPoint> curColPoints {};
-        for (int curCol {0}; curCol <= columns; curCol++)
+        for (unsigned col {0}; col <= mazeSize_; col++)
         {
-            curColPoints.push_back(QPoint(curCol * cellSize, curRow * cellSize));
+            curColPoints.push_back(QPoint(col * cellSize_, row * cellSize_));
         }
         cellGrid.push_back(curColPoints);
     }
+}
+
+void Maze::generateMazeGrid(unsigned int mazeSize)
+{
+
 }

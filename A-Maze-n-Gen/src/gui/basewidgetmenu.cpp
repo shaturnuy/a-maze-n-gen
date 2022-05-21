@@ -15,7 +15,7 @@ BaseWidgetMenu::BaseWidgetMenu(QWidget *parent)
 
 
     menuGroupBox_ = new QGroupBox(this);
-    menuGroupBox_->setStyleSheet(GROUP_BOX_STYLE_SHEET);
+    menuGroupBox_->setStyleSheet(MENU_STYLE_SHEET);
     menuGroupBox_->setLayout(menuLayout_);
 
 //  Запрещает делать окно размером меньше данного виджета
@@ -33,8 +33,9 @@ void BaseWidgetMenu::addRadioButton(QRadioButton *radioButton, bool isFirstRadio
 {
     menuLayout_->addWidget(radioButton);
 
-    if (isFirstRadioButtonInList == true)
-        radioButton->setChecked(true);
+//  TODELETE
+//    if (isFirstRadioButtonInList == true)
+//        radioButton->setChecked(true);
 
 //    Необходимо вызвать эту функцию для обновления размера окна после добавления объекта
     setMinimumSize(menuGroupBox_->sizeHint());

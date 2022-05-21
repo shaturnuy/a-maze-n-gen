@@ -12,15 +12,17 @@
 class Maze
 {
 private:
-
     QVector<QVector<QPoint>> cellGrid;
     QVector<QVector<QLineF>> cellWalls;
-    int cellSize {60};
-    int columns {5};
-    int rows {5};
+
+    unsigned int mazeGridSizePx_ {};
+    unsigned int mazeSize_ {};
+    unsigned int cellSize_ {};
 
 public:
+    explicit Maze(QGraphicsScene *scene, unsigned int mazeGridSizePx, unsigned int mazeSize = 5);
+    void getPointsOfGrid();
 
-    Maze(QGraphicsScene *scene);
-    void getCellGrid();
+public slots:
+    void generateMazeGrid(unsigned int mazeSize);
 };

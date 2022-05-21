@@ -1,28 +1,31 @@
 #pragma once
 
 #include "basewidgetmenu.h"
-
-#include <QRadioButton>
-#include <QString>
+#include "mazesizeradiobutton.h"
+#include "mazearea.h"
 
 class FieldSizeMenu : public BaseWidgetMenu
 {
+    Q_OBJECT
 
 private:
+/*  3 очередь. Вероятно, следует сделать кнопки и ассоциированные с ними слоты с помощью векторов
+    и указателей на функции (если возможно таким образом создать слоты), ибо сейчас выглядит ужасно.
+    Возможно вообще переделать на вводимый юзером размер клеток */
+    MazeSizeRadioButton *sizeFirstRadio_ {nullptr};
+    MazeSizeRadioButton *sizeSecondRadio_ {nullptr};
+    MazeSizeRadioButton *sizeThirdRadio_ {nullptr};
 
-    QRadioButton *sizeFirstRadio_ {nullptr};
-    QRadioButton *sizeSecondRadio_ {nullptr};
-    QRadioButton *sizeThirdRadio_ {nullptr};
+signals:
+    void sendMazeSize(unsigned int mazeSize);
+
+private slots:
+    void slotFirstRadio();
+    void slotSecondRadio();
+    void slotThirdRadio();
 
 public:
-
     explicit FieldSizeMenu(QWidget *parent = nullptr) noexcept;
-
-/*  Попытка сделать полиморфично-красивый метод была провалена
-    Ни одно решение из инета не помогло, скорее всего здесь какая-то базовая ошибка в логике, которую я не вижу
-    Потрачено слишком много времени на это, возвращаю старое некрасивое (зато рабочее) решение
-    Заниматься этим в самую последнюю очередь, если будут идеи
-    void addRadioButton(QRadioButton *radioButton, unsigned int sizeOfMazeGrid, bool isFirstRadioButtonInList = false); */
     void initializeMenu();
 
     virtual ~FieldSizeMenu() {};

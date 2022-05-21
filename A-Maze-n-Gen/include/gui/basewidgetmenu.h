@@ -12,10 +12,9 @@ class BaseWidgetMenu : public QWidget
     Q_OBJECT
 
 private:
-
-    const int TITLE_LABEL_SIZE {250};
-    const int PUSH_BUTTON_SIZE {150};
-    const QString GROUP_BOX_STYLE_SHEET {
+    const unsigned int TITLE_LABEL_SIZE {250};
+    const unsigned int PUSH_BUTTON_SIZE {150};
+    const QString MENU_STYLE_SHEET {
         "QGroupBox {border-style: double;"
                    "border-width: 3px;}"
         "QLabel    {border-bottom-width: 1px;"
@@ -31,7 +30,6 @@ private:
     QGroupBox *menuGroupBox_ {nullptr};
 
 public:
-
     explicit BaseWidgetMenu(QWidget *parent = nullptr);
 
     virtual void initializeMenu() = 0;

@@ -15,6 +15,7 @@ AlgorithmGeneratorMenu::AlgorithmGeneratorMenu(QWidget *parent)
 // TODO
     algorithmBinaryTreeRadio_->setDisabled(true);
     algorithmSidewinderRadio_->setDisabled(true);
+    startGenerationButton_->setDisabled(true);
 }
 
 /*------------------------------------------------------------------------------------------------*/
