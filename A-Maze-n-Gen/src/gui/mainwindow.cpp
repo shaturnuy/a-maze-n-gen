@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     setLayout(mainLayout);
 
 
-    connect(fieldSizeWidget_, &FieldSizeMenu::sendMazeSize, mazeGrid_, &MazeArea::setMazeSize);
+    connect(fieldSizeWidget_, &FieldSizeMenu::sendMazeSizeToMazeArea, mazeGrid_, &MazeArea::setMazeSize);
 }
 
 /*------------------------------------------------------------------------------------------------*/

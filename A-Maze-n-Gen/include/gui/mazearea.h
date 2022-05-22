@@ -19,6 +19,7 @@ private:
                                          "border-width: 3px;}"};
 
     unsigned int mazeSize_ {};
+    Maze *maze_ {nullptr};
 
     QGraphicsScene *mazeScene_ {nullptr};
     QGraphicsView *mazeView_ {nullptr};
@@ -29,6 +30,10 @@ private:
 public:
     MazeArea(QWidget *parent);
 
+signals:
+    void requestToGenerateMazeGrid(unsigned int mazeSize);
+
 public slots:
     void setMazeSize(unsigned int mazeSize);
+    void drawMazeGrid(Maze *maze);
 };

@@ -1,12 +1,27 @@
 #include "maze.h"
 
-Maze::Maze(QGraphicsScene *scene, unsigned int mazeGridSizePx, unsigned int mazeSize)
-    : mazeGridSizePx_(mazeGridSizePx),
-      mazeSize_(mazeSize),
-      cellSize_(mazeGridSizePx / mazeSize)
+Maze::Maze(unsigned int mazeGridSizePx)
+    : mazeGridSizePx_(mazeGridSizePx)
 {
-    getPointsOfGrid();
+}
 
+/*------------------------------------------------------------------------------------------------*/
+void Maze::initializePointsOfGrid()
+{
+    for (unsigned row {0}; row <= mazeSize_; row++)
+    {
+        QVector<QPoint> curColPoints {};
+        for (unsigned col {0}; col <= mazeSize_; col++)
+        {
+            curColPoints.push_back(QPoint(col * cellSize_, row * cellSize_));
+        }
+        cellGrid.push_back(curColPoints);
+    }
+}
+
+/*------------------------------------------------------------------------------------------------*/
+void Maze::initializeLinesOfGrid()
+{
     for (unsigned row {0}; row < mazeSize_; row++)
     {
         QVector<QLineF> curColLines {};
@@ -20,30 +35,15 @@ Maze::Maze(QGraphicsScene *scene, unsigned int mazeGridSizePx, unsigned int maze
         cellWalls.push_back(curColLines);
     }
 
-    for (unsigned i = 0; i < mazeSize_; i++)
-    {
-        for (unsigned j = 0; j < mazeSize_ * 4; j++)
-        {
-            scene->addItem(new QGraphicsLineItem(cellWalls[i][j]));
-        }
-    }
+    emit requestToDrawMazeGrid(this);
 }
 
 /*------------------------------------------------------------------------------------------------*/
-void Maze::getPointsOfGrid()
-{
-    for (unsigned row {0}; row <= mazeSize_; row++)
-    {
-        QVector<QPoint> curColPoints {};
-        for (unsigned col {0}; col <= mazeSize_; col++)
-        {
-            curColPoints.push_back(QPoint(col * cellSize_, row * cellSize_));
-        }
-        cellGrid.push_back(curColPoints);
-    }
-}
-
 void Maze::generateMazeGrid(unsigned int mazeSize)
 {
+    mazeSize_ = mazeSize;
+    cellSize_ = mazeGridSizePx_ / mazeSize_;
 
+    initializePointsOfGrid();
+    initializeLinesOfGrid();
 }

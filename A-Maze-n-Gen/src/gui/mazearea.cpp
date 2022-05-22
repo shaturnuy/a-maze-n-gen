@@ -8,8 +8,6 @@ MazeArea::MazeArea(QWidget *parent)
     mazeView_->setFixedSize(GRAPHIC_VIEW_SIZE, GRAPHIC_VIEW_SIZE);
     mazeView_->setScene(mazeScene_);
 
-    Maze maze(mazeScene_, MAZE_AREA_SIZE);
-
 
     mazeAreaLayout_ = new QVBoxLayout(this);
     mazeAreaLayout_->setAlignment(Qt::AlignCenter);
@@ -21,10 +19,28 @@ MazeArea::MazeArea(QWidget *parent)
     mazeAreaGroupBox_->setLayout(mazeAreaLayout_);
 
     setMinimumSize(mazeAreaGroupBox_->sizeHint());
+
+    maze_ = new Maze(MAZE_AREA_SIZE);
+    connect(this, &MazeArea::requestToGenerateMazeGrid, maze_, &Maze::generateMazeGrid);
+
+    connect(maze_, &Maze::requestToDrawMazeGrid, this, &MazeArea::drawMazeGrid);
+}
+
+/*------------------------------------------------------------------------------------------------*/
+void MazeArea::drawMazeGrid(Maze *maze)
+{
+    for (unsigned i = 0; i < mazeSize_; i++)
+    {
+        for (unsigned j = 0; j < mazeSize_ * 4; j++)
+        {
+            mazeScene_->addItem(new QGraphicsLineItem(maze->cellWalls[i][j]));
+        }
+    }
 }
 
 /*------------------------------------------------------------------------------------------------*/
 void MazeArea::setMazeSize(unsigned int mazeSize)
 {
     mazeSize_ = mazeSize;
+    emit requestToGenerateMazeGrid(mazeSize_);
 }

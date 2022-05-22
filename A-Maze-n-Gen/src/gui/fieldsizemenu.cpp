@@ -14,7 +14,7 @@ FieldSizeMenu::FieldSizeMenu(QWidget *parent) noexcept
     connect(sizeThirdRadio_, &MazeSizeRadioButton::toggled, this, &FieldSizeMenu::slotThirdRadio);
 }
 
-/*------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------R---------------------------------------*/
 void FieldSizeMenu::initializeMenu()
 {
     setTextLabel("Field Size");
@@ -27,17 +27,17 @@ void FieldSizeMenu::initializeMenu()
 /*------------------------------------------------------------------------------------------------*/
 void FieldSizeMenu::slotFirstRadio()
 {
-    emit sendMazeSize(sizeFirstRadio_->getMazeSize());
+    emit sendMazeSizeToMazeArea(sizeFirstRadio_->getMazeSize());
 }
 
 /*------------------------------------------------------------------------------------------------*/
 void FieldSizeMenu::slotSecondRadio()
 {
-    emit sendMazeSize(sizeSecondRadio_->getMazeSize());
+    emit sendMazeSizeToMazeArea(sizeSecondRadio_->getMazeSize());
 }
 
 /*------------------------------------------------------------------------------------------------*/
 void FieldSizeMenu::slotThirdRadio()
 {
-    emit sendMazeSize(sizeThirdRadio_->getMazeSize());
+    emit sendMazeSizeToMazeArea(sizeThirdRadio_->getMazeSize());
 }

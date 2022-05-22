@@ -17,7 +17,7 @@ private:
     MazeSizeRadioButton *sizeThirdRadio_ {nullptr};
 
 signals:
-    void sendMazeSize(unsigned int mazeSize);
+    void sendMazeSizeToMazeArea(unsigned int mazeSize);
 
 private slots:
     void slotFirstRadio();
