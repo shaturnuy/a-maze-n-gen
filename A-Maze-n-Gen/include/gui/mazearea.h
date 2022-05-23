@@ -35,5 +35,5 @@ signals:
 
 public slots:
     void setMazeSize(unsigned int mazeSize);
-    void drawMazeGrid(Maze *maze);
+    void drawMazeGrid(const QVector<QVector<Cell>>& cellGrid);
 };

@@ -14,23 +14,21 @@ class Maze : public QObject
     Q_OBJECT
 
 private:
-    QVector<QVector<QPoint>> cellGrid;
-
     QVector<QVector<Cell>> cellGrid_;
 
     unsigned int mazeGridSizePx_ {};
     unsigned int mazeSize_ {};
-    unsigned int cellSize_ {};
 
 public:
     explicit Maze(unsigned int mazeGridSizePx);
-    void initializePointsOfGrid();
-    void initializeLinesOfGrid();
+    const QVector<QVector<Cell>>& getCellGrid();
+//    void initializePointsOfGrid();
+//    void initializeLinesOfGrid();
 
-    QVector<QVector<QLineF>> cellWalls;
+//    QVector<QVector<QLineF>> cellWalls;
 
 signals:
-    void requestToDrawMazeGrid(Maze *maze);
+    void requestToDrawMazeGrid(const QVector<QVector<Cell>>& cellGrid);
 
 public slots:
     void generateMazeGrid(unsigned int mazeSize);

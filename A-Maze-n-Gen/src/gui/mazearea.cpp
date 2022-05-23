@@ -27,15 +27,26 @@ MazeArea::MazeArea(QWidget *parent)
 }
 
 /*------------------------------------------------------------------------------------------------*/
-void MazeArea::drawMazeGrid(Maze *maze)
+void MazeArea::drawMazeGrid(const QVector<QVector<Cell>>& cellGrid)
 {
-    for (unsigned i = 0; i < mazeSize_; i++)
+    mazeScene_->clear();
+    for (auto row = cellGrid.begin(); row != cellGrid.end(); row++)
     {
-        for (unsigned j = 0; j < mazeSize_ * 4; j++)
+        for (auto col = row->begin(); col != row->end(); col++)
         {
-            mazeScene_->addItem(new QGraphicsLineItem(maze->cellWalls[i][j]));
+            mazeScene_->addItem(col->topWall_);
+            mazeScene_->addItem(col->botWall_);
+            mazeScene_->addItem(col->leftWall_);
+            mazeScene_->addItem(col->rightWall_);
         }
     }
+//    for (unsigned i = 0; i < mazeSize_; i++)
+//    {
+//        for (unsigned j = 0; j < mazeSize_ * 4; j++)
+//        {
+//            mazeScene_->addItem(new QGraphicsLineItem(maze->cellWalls[i][j]));
+//        }
+//    }
 }
 
 /*------------------------------------------------------------------------------------------------*/
