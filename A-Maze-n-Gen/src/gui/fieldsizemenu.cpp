@@ -19,7 +19,7 @@ void FieldSizeMenu::initializeMenu()
 {
     setTextLabel("Field Size");
 
-    addRadioButton(sizeFirstRadio_, true);
+    addRadioButton(sizeFirstRadio_);
     addRadioButton(sizeSecondRadio_);
     addRadioButton(sizeThirdRadio_);
 }

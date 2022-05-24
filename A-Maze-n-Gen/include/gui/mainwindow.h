@@ -3,16 +3,9 @@
 #include "algorithmgeneratormenu.h"
 #include "fieldsizemenu.h"
 #include "mazearea.h"
-#include "maze.h"
 
 #include <QWidget>
 #include <QLayout>
-#include <QGraphicsView>
-#include <QGraphicsScene>
-#include <QPen>
-#include <QRectF>
-#include <QRect>
-#include <QGroupBox>
 
 class MainWindow : public QWidget
 {
@@ -26,6 +19,8 @@ private:
     MazeArea *mazeGrid_ {nullptr};
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr) noexcept;
+    virtual ~MainWindow() {};
+
     void initializeSidebar();
 };

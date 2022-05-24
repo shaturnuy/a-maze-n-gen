@@ -7,6 +7,7 @@
 
 class AlgorithmGeneratorMenu : public BaseWidgetMenu
 {
+    Q_OBJECT
 
 private:
     QRadioButton *algorithmAldousBroderRadio_ {nullptr};
@@ -16,8 +17,8 @@ private:
     QPushButton *startGenerationButton_ {nullptr};
 
 public:
-    explicit AlgorithmGeneratorMenu(QWidget *parent = nullptr);
-    void initializeMenu();
+    AlgorithmGeneratorMenu(QWidget *parent = nullptr) noexcept;
+    ~AlgorithmGeneratorMenu() {};
 
-    virtual ~AlgorithmGeneratorMenu() {};
+    void initializeMenu();
 };

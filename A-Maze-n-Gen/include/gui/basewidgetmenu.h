@@ -30,13 +30,12 @@ private:
     QGroupBox *menuGroupBox_ {nullptr};
 
 public:
-    explicit BaseWidgetMenu(QWidget *parent = nullptr);
+    BaseWidgetMenu(QWidget *parent = nullptr) noexcept;
+    virtual ~BaseWidgetMenu() {};
 
     virtual void initializeMenu() = 0;
 
     void setTextLabel(const QString textLabel);
-    void addRadioButton(QRadioButton *radioButton, bool isFirstRadioButtonInList = false);
+    void addRadioButton(QRadioButton *radioButton);
     void addPushButton(QPushButton *pushButton);
-
-    virtual ~BaseWidgetMenu() {};
 };

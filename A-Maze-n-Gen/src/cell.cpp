@@ -1,32 +1,57 @@
 #include "cell.h"
 
-Cell::Cell(unsigned int cellSize, unsigned int row, unsigned int col)
+Cell::Cell(unsigned int cellSize, unsigned int row, unsigned int col) noexcept
     : cellSize_(cellSize)
 {
-    leftTopPoint_.setX((col + 0) * cellSize_);
-    leftTopPoint_.setY((row + 0) * cellSize_);
+    QPoint leftTopPoint {};
+    QPoint rightTopPoint {};
+    QPoint leftBotPoint {};
+    QPoint rightBotPoint {};
 
-    rightTopPoint_.setX((col + 1) * cellSize_);
-    rightTopPoint_.setY((row + 0) * cellSize_);
+    leftTopPoint.setX((col + 0) * cellSize_);
+    leftTopPoint.setY((row + 0) * cellSize_);
 
-    leftBotPoint_.setX((col + 0) * cellSize_);
-    leftBotPoint_.setY((row + 1) * cellSize_);
+    rightTopPoint.setX((col + 1) * cellSize_);
+    rightTopPoint.setY((row + 0) * cellSize_);
 
-    rightBotPoint_.setX((col + 1) * cellSize_);
-    rightBotPoint_.setY((row + 1) * cellSize_);
+    leftBotPoint.setX((col + 0) * cellSize_);
+    leftBotPoint.setY((row + 1) * cellSize_);
+
+    rightBotPoint.setX((col + 1) * cellSize_);
+    rightBotPoint.setY((row + 1) * cellSize_);
+
 
     topWall_ = new QGraphicsLineItem;
     botWall_ = new QGraphicsLineItem;
     leftWall_ = new QGraphicsLineItem;
     rightWall_ = new QGraphicsLineItem;
 
-//    topWall_.setPoints(leftTopPoint_, rightTopPoint_);
-//    botWall_.setPoints(leftBotPoint_, rightBotPoint_);
-//    leftWall_.setPoints(leftTopPoint_, leftBotPoint_);
-//    rightWall_.setPoints(rightTopPoint_, rightBotPoint_);
+    topWall_->setLine(QLineF(leftTopPoint, rightTopPoint));
+    botWall_->setLine(QLineF(leftBotPoint, rightBotPoint));
+    leftWall_->setLine(QLineF(leftTopPoint, leftBotPoint));
+    rightWall_->setLine(QLineF(rightTopPoint, rightBotPoint));
+}
 
-    topWall_->setLine(QLineF(leftTopPoint_, rightTopPoint_));
-    botWall_->setLine(QLineF(leftBotPoint_, rightBotPoint_));
-    leftWall_->setLine(QLineF(leftTopPoint_, leftBotPoint_));
-    rightWall_->setLine(QLineF(rightTopPoint_, rightBotPoint_));
+/*------------------------------------------------------------------------------------------------*/
+QGraphicsLineItem* Cell::getTopWall()
+{
+    return topWall_;
+}
+
+/*------------------------------------------------------------------------------------------------*/
+QGraphicsLineItem* Cell::getBotWall()
+{
+    return botWall_;
+}
+
+/*------------------------------------------------------------------------------------------------*/
+QGraphicsLineItem* Cell::getLeftWall()
+{
+    return leftWall_;
+}
+
+/*------------------------------------------------------------------------------------------------*/
+QGraphicsLineItem* Cell::getRightWall()
+{
+    return rightWall_;
 }

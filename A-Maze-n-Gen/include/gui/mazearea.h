@@ -28,12 +28,15 @@ private:
     QGroupBox *mazeAreaGroupBox_ {nullptr};
 
 public:
-    MazeArea(QWidget *parent);
+    MazeArea(QWidget *parent) noexcept;
+    ~MazeArea() {};
+
+    void addCellOnScene(Cell& cell);
 
 signals:
     void requestToGenerateMazeGrid(unsigned int mazeSize);
 
 public slots:
     void setMazeSize(unsigned int mazeSize);
-    void drawMazeGrid(const QVector<QVector<Cell>>& cellGrid);
+    void drawMazeGrid(QVector<QVector<Cell>>& cellGrid);
 };

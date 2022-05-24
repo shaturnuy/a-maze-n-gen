@@ -1,6 +1,6 @@
 #include "gui/algorithmgeneratormenu.h"
 
-AlgorithmGeneratorMenu::AlgorithmGeneratorMenu(QWidget *parent)
+AlgorithmGeneratorMenu::AlgorithmGeneratorMenu(QWidget *parent) noexcept
     : BaseWidgetMenu(parent)
 {
     algorithmAldousBroderRadio_ = new QRadioButton("Aldous Broder");
@@ -23,7 +23,7 @@ void AlgorithmGeneratorMenu::initializeMenu()
 {
     setTextLabel("Maze Construction Algorithm");
 
-    addRadioButton(algorithmAldousBroderRadio_, true);
+    addRadioButton(algorithmAldousBroderRadio_);
     addRadioButton(algorithmBinaryTreeRadio_);
     addRadioButton(algorithmSidewinderRadio_);
 

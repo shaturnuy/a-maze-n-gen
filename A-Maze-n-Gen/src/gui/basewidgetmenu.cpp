@@ -1,6 +1,6 @@
 #include "gui/basewidgetmenu.h"
 
-BaseWidgetMenu::BaseWidgetMenu(QWidget *parent)
+BaseWidgetMenu::BaseWidgetMenu(QWidget *parent) noexcept
     : QWidget(parent)
 {
     titleLabel_ = new QLabel;
@@ -8,7 +8,7 @@ BaseWidgetMenu::BaseWidgetMenu(QWidget *parent)
     titleLabel_->setFixedWidth(TITLE_LABEL_SIZE);
 
 
-//  Передача this в QLayout делает layout верхнеуровневым, без этого не отображаются внутренности
+    // Передача this в QLayout делает layout верхнеуровневым, без этого не отображаются внутренности
     menuLayout_ = new QVBoxLayout(this);
     menuLayout_->addStretch();
     menuLayout_->addWidget(titleLabel_);
@@ -18,7 +18,7 @@ BaseWidgetMenu::BaseWidgetMenu(QWidget *parent)
     menuGroupBox_->setStyleSheet(MENU_STYLE_SHEET);
     menuGroupBox_->setLayout(menuLayout_);
 
-//  Запрещает делать окно размером меньше данного виджета
+    // Запрещает делать окно размером меньше данного виджета
     setMinimumSize(menuGroupBox_->sizeHint());
 }
 
@@ -29,15 +29,11 @@ void BaseWidgetMenu::setTextLabel(const QString textLabel)
 }
 
 /*------------------------------------------------------------------------------------------------*/
-void BaseWidgetMenu::addRadioButton(QRadioButton *radioButton, bool isFirstRadioButtonInList)
+void BaseWidgetMenu::addRadioButton(QRadioButton *radioButton)
 {
     menuLayout_->addWidget(radioButton);
 
-//  TODELETE
-//    if (isFirstRadioButtonInList == true)
-//        radioButton->setChecked(true);
-
-//    Необходимо вызвать эту функцию для обновления размера окна после добавления объекта
+    // Необходимо вызвать эту функцию для обновления размера окна после добавления объекта
     setMinimumSize(menuGroupBox_->sizeHint());
 }
 

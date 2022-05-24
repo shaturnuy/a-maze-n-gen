@@ -1,6 +1,6 @@
 #include "gui/mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget *parent) noexcept
     : QWidget(parent)
 {
     setWindowTitle("A-Maze-n-Gen");
@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     initializeSidebar();
 
     mazeGrid_ = new MazeArea(this);
+
     QHBoxLayout *mainLayout = new QHBoxLayout();
     mainLayout->setSpacing(5);
     mainLayout->addWidget(mazeGrid_);

@@ -9,6 +9,8 @@ private:
     unsigned int mazeSize_ {};
 
 public:
-    explicit MazeSizeRadioButton(unsigned int mazeSize);
+    explicit MazeSizeRadioButton(unsigned int mazeSize) noexcept;
+    ~MazeSizeRadioButton() {};
+
     unsigned int getMazeSize() const;
 };
