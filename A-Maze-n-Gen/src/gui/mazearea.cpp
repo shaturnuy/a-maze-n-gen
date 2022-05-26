@@ -35,6 +35,8 @@ void MazeArea::drawMazeGrid(QVector<QVector<Cell>>& cellGrid)
             addCellOnScene(*col);
         }
     }
+
+    emit fieldReadyToGenerate();
 }
 
 /*------------------------------------------------------------------------------------------------*/

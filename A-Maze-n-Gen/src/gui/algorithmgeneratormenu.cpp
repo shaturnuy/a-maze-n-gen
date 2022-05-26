@@ -16,6 +16,9 @@ AlgorithmGeneratorMenu::AlgorithmGeneratorMenu(QWidget *parent) noexcept
     algorithmBinaryTreeRadio_->setDisabled(true);
     algorithmSidewinderRadio_->setDisabled(true);
     startGenerationButton_->setDisabled(true);
+
+    connect(algorithmAldousBroderRadio_, &QRadioButton::toggled, this, &AlgorithmGeneratorMenu::slotAldousBroderRadio);
+
 }
 
 /*------------------------------------------------------------------------------------------------*/
@@ -28,4 +31,25 @@ void AlgorithmGeneratorMenu::initializeMenu()
     addRadioButton(algorithmSidewinderRadio_);
 
     addPushButton(startGenerationButton_);
+}
+
+/*------------------------------------------------------------------------------------------------*/
+void AlgorithmGeneratorMenu::slotAldousBroderRadio()
+{
+    emit algorithmReadyToGenerate();
+}
+
+/*------------------------------------------------------------------------------------------------*/
+void AlgorithmGeneratorMenu::activateGenerateButton()
+{
+    /* Данный слот связан с двуями сигналами, один из которых отправляется из этого же объекта при
+    нажатии кнопки выбора алгоритма генерации. Поэтому здесь происходит проверка "если отправитель
+    этот же объект" ..., а если нет, значит вариантов больше нет и это сигнал из fieldSizeMenu */
+    if (sender() == this)
+        isAlgorithmReadyToGenerate_ = true;
+    else
+        isFieldReadyToGenerate_ = true;
+
+    if (isFieldReadyToGenerate_ && isAlgorithmReadyToGenerate_)
+        startGenerationButton_->setDisabled(false);
 }

@@ -19,6 +19,10 @@ MainWindow::MainWindow(QWidget *parent) noexcept
 
 
     connect(fieldSizeWidget_, &FieldSizeMenu::sendMazeSizeToMazeArea, mazeGrid_, &MazeArea::setMazeSize);
+
+    connect(mazeGrid_, &MazeArea::fieldReadyToGenerate, algorithmGeneratorWidget_, &AlgorithmGeneratorMenu::activateGenerateButton);
+    connect(algorithmGeneratorWidget_, &AlgorithmGeneratorMenu::algorithmReadyToGenerate,
+            algorithmGeneratorWidget_, &AlgorithmGeneratorMenu::activateGenerateButton);
 }
 
 /*------------------------------------------------------------------------------------------------*/

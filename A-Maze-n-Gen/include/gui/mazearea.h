@@ -35,6 +35,7 @@ public:
 
 signals:
     void requestToGenerateMazeGrid(unsigned int mazeSize);
+    void fieldReadyToGenerate();
 
 public slots:
     void setMazeSize(unsigned int mazeSize);
