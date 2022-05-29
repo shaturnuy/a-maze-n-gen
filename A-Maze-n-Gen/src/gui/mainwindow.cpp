@@ -3,30 +3,22 @@
 MainWindow::MainWindow(QWidget *parent) noexcept
     : QWidget(parent)
 {
-    setWindowTitle("A-Maze-n-Gen");
-    setWindowFlags(Qt::Window | Qt::MSWindowsFixedSizeDialogHint);
+    initializeMazeSettingsMenu();
+    initializeMazeArea();
+    initializeMainWindow();
 
-    initializeSidebar();
-
-    mazeGrid_ = new MazeArea(this);
-
-    QHBoxLayout *mainLayout = new QHBoxLayout();
-    mainLayout->setSpacing(5);
-    mainLayout->addWidget(mazeGrid_);
-    mainLayout->addLayout(sidebarLayout_);
-
-    setLayout(mainLayout);
-
-
-    connect(fieldSizeWidget_, &FieldSizeMenu::sendMazeSizeToMazeArea, mazeGrid_, &MazeArea::setMazeSize);
+    connect(fieldSizeWidget_, &FieldSizeMenu::sendMazeSize, mazeGrid_, &MazeArea::startGenerateMazeGrid);
 
     connect(mazeGrid_, &MazeArea::fieldReadyToGenerate, algorithmGeneratorWidget_, &AlgorithmGeneratorMenu::activateGenerateButton);
     connect(algorithmGeneratorWidget_, &AlgorithmGeneratorMenu::algorithmReadyToGenerate,
             algorithmGeneratorWidget_, &AlgorithmGeneratorMenu::activateGenerateButton);
+
+//    connect(algorithmGeneratorWidget_, &AlgorithmGeneratorMenu::startGenerationMaze,
+//            mazeGrid_, &MazeArea::);
 }
 
 /*------------------------------------------------------------------------------------------------*/
-void MainWindow::initializeSidebar()
+void MainWindow::initializeMazeSettingsMenu()
 {
     fieldSizeWidget_ = new FieldSizeMenu(this);
     algorithmGeneratorWidget_ = new AlgorithmGeneratorMenu(this);
@@ -37,4 +29,23 @@ void MainWindow::initializeSidebar()
 
     sidebarLayout_->addWidget(fieldSizeWidget_);
     sidebarLayout_->addWidget(algorithmGeneratorWidget_);
+}
+
+/*------------------------------------------------------------------------------------------------*/
+void MainWindow::initializeMazeArea()
+{
+    mazeGrid_ = new MazeArea(this);
+}
+
+/*------------------------------------------------------------------------------------------------*/
+void MainWindow::initializeMainWindow()
+{
+    setWindowTitle("A-Maze-n-Gen");
+    setWindowFlags(Qt::Window | Qt::MSWindowsFixedSizeDialogHint);
+
+    mainLayout_ = new QHBoxLayout(this);
+    mainLayout_->setSpacing(5);
+    mainLayout_->addWidget(mazeGrid_);
+    mainLayout_->addLayout(sidebarLayout_);
+    setLayout(mainLayout_);
 }

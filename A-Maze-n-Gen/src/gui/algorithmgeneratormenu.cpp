@@ -15,10 +15,9 @@ AlgorithmGeneratorMenu::AlgorithmGeneratorMenu(QWidget *parent) noexcept
 // TODO
     algorithmBinaryTreeRadio_->setDisabled(true);
     algorithmSidewinderRadio_->setDisabled(true);
-    startGenerationButton_->setDisabled(true);
 
     connect(algorithmAldousBroderRadio_, &QRadioButton::toggled, this, &AlgorithmGeneratorMenu::slotAldousBroderRadio);
-
+    connect(startGenerationButton_, &QPushButton::clicked, this, &AlgorithmGeneratorMenu::slotStartGenerationButton);
 }
 
 /*------------------------------------------------------------------------------------------------*/
@@ -31,11 +30,13 @@ void AlgorithmGeneratorMenu::initializeMenu()
     addRadioButton(algorithmSidewinderRadio_);
 
     addPushButton(startGenerationButton_);
+    startGenerationButton_->setDisabled(true);
 }
 
 /*------------------------------------------------------------------------------------------------*/
 void AlgorithmGeneratorMenu::slotAldousBroderRadio()
 {
+    whichAlgorithmWasChosen_ = AlgorithmGeneratorMenu::AldousBroderAlgorithm;
     emit algorithmReadyToGenerate();
 }
 
@@ -52,4 +53,10 @@ void AlgorithmGeneratorMenu::activateGenerateButton()
 
     if (isFieldReadyToGenerate_ && isAlgorithmReadyToGenerate_)
         startGenerationButton_->setDisabled(false);
+}
+
+/*------------------------------------------------------------------------------------------------*/
+void AlgorithmGeneratorMenu::slotStartGenerationButton()
+{
+    emit startGenerationMaze(whichAlgorithmWasChosen_);
 }

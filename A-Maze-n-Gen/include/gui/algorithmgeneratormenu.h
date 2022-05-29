@@ -1,7 +1,6 @@
 #pragma once
 
 #include "basewidgetmenu.h"
-#include "mazearea.h"
 
 #include <QRadioButton>
 #include <QPushButton>
@@ -17,6 +16,7 @@ private:
 
     QPushButton *startGenerationButton_ {nullptr};
 
+    int whichAlgorithmWasChosen_ {};
     bool isFieldReadyToGenerate_ {false};
     bool isAlgorithmReadyToGenerate_ {false};
 
@@ -24,13 +24,17 @@ public:
     AlgorithmGeneratorMenu(QWidget *parent = nullptr) noexcept;
     ~AlgorithmGeneratorMenu() {};
 
+    enum {AldousBroderAlgorithm};
+
     void initializeMenu();
 
 signals:
     void algorithmReadyToGenerate();
+    void startGenerationMaze(int whichAlgorithmWasChosen);
 
 private slots:
     void slotAldousBroderRadio();
+    void slotStartGenerationButton();
 
 public slots:
     void activateGenerateButton();

@@ -18,9 +18,13 @@ private:
 
     MazeArea *mazeGrid_ {nullptr};
 
+    QHBoxLayout *mainLayout_ {nullptr};
+
 public:
     MainWindow(QWidget *parent = nullptr) noexcept;
     virtual ~MainWindow() {};
 
-    void initializeSidebar();
+    void initializeMazeSettingsMenu();
+    void initializeMazeArea();
+    void initializeMainWindow();
 };

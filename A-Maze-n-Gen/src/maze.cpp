@@ -6,12 +6,6 @@ Maze::Maze(unsigned int mazeGridSizePx) noexcept
 }
 
 /*------------------------------------------------------------------------------------------------*/
-QVector<QVector<Cell>>& Maze::getCellGrid()
-{
-    return cellGrid_;
-}
-
-/*------------------------------------------------------------------------------------------------*/
 void Maze::generateMazeGrid(unsigned int mazeSize)
 {
     // Перед генерацией поля очищаем его от старых значений
@@ -33,3 +27,10 @@ void Maze::generateMazeGrid(unsigned int mazeSize)
     // После завершения генерации поля отправляем его на отрисовку
     emit requestToDrawMazeGrid(getCellGrid());
 }
+
+/*------------------------------------------------------------------------------------------------*/
+QVector<QVector<Cell>>& Maze::getCellGrid()
+{
+    return cellGrid_;
+}
+

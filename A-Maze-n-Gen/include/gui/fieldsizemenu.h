@@ -22,11 +22,10 @@ public:
     void initializeMenu();
 
 signals:
-    void sendMazeSizeToMazeArea(unsigned int mazeSize);
+    void sendMazeSize(unsigned int mazeSize);
 
 private slots:
     void slotFirstRadio();
     void slotSecondRadio();
     void slotThirdRadio();
-
 };

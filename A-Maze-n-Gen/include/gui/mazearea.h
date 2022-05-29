@@ -18,7 +18,6 @@ private:
     const QString MAZE_AREA_STYLE_SHEET {"QGroupBox {border-style: double;"
                                          "border-width: 3px;}"};
 
-    unsigned int mazeSize_ {};
     Maze *maze_ {nullptr};
 
     QGraphicsScene *mazeScene_ {nullptr};
@@ -31,13 +30,13 @@ public:
     MazeArea(QWidget *parent) noexcept;
     ~MazeArea() {};
 
+    void initializeMenu();
     void addCellOnScene(Cell& cell);
 
 signals:
-    void requestToGenerateMazeGrid(unsigned int mazeSize);
     void fieldReadyToGenerate();
 
 public slots:
-    void setMazeSize(unsigned int mazeSize);
     void drawMazeGrid(QVector<QVector<Cell>>& cellGrid);
+    void startGenerateMazeGrid(unsigned int mazeSize);
 };

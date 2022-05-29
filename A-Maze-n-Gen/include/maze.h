@@ -18,11 +18,9 @@ public:
     explicit Maze(unsigned int mazeGridSizePx) noexcept;
     ~Maze() {};
 
+    void generateMazeGrid(unsigned int mazeSize);
     QVector<QVector<Cell>>& getCellGrid();
 
 signals:
     void requestToDrawMazeGrid(QVector<QVector<Cell>>& cellGrid);
-
-public slots:
-    void generateMazeGrid(unsigned int mazeSize);
 };
