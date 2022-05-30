@@ -40,6 +40,7 @@ void MazeArea::drawMazeGrid(QVector<QVector<Cell>>& cellGrid)
         }
     }
 
+    mazeScene_->addRect(QRectF(cellGrid[2][2].testRect), QPen(), QBrush(Qt::darkMagenta, Qt::SolidPattern));
     emit fieldReadyToGenerate();
 }
 
@@ -56,4 +57,11 @@ void MazeArea::addCellOnScene(Cell& cell)
 void MazeArea::startGenerateMazeGrid(unsigned int mazeSize)
 {
     maze_->generateMazeGrid(mazeSize);
+}
+
+/*------------------------------------------------------------------------------------------------*/
+void MazeArea::startGenerationMaze(int whichAlgorithmWasChosen)
+{
+    if (whichAlgorithmWasChosen == AlgorithmGeneratorMenu::AldousBroderAlgorithm)
+        maze_->generateAldousBroder();
 }

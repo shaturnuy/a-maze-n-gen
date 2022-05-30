@@ -30,6 +30,10 @@ Cell::Cell(unsigned int cellSize, unsigned int row, unsigned int col) noexcept
     botWall_->setLine(QLineF(leftBotPoint, rightBotPoint));
     leftWall_->setLine(QLineF(leftTopPoint, leftBotPoint));
     rightWall_->setLine(QLineF(rightTopPoint, rightBotPoint));
+
+    rightBotPoint.setX(rightBotPoint.x() - 1);
+    rightBotPoint.setY(rightBotPoint.y() - 1);
+    testRect = QRect(leftTopPoint, rightBotPoint);
 }
 
 /*------------------------------------------------------------------------------------------------*/

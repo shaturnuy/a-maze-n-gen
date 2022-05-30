@@ -34,3 +34,15 @@ QVector<QVector<Cell>>& Maze::getCellGrid()
     return cellGrid_;
 }
 
+/*------------------------------------------------------------------------------------------------*/
+void Maze::generateAldousBroder()
+{
+    QVector<Cell> visitedCells {};
+    visitedCells.push_back(cellGrid_[0][0]);
+
+
+    while (visitedCells.size() < mazeSize_)
+    {
+
+    }
+}

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "algorithmgeneratormenu.h"
 #include "maze.h"
 
 #include <QGraphicsView>
@@ -39,4 +40,5 @@ signals:
 public slots:
     void drawMazeGrid(QVector<QVector<Cell>>& cellGrid);
     void startGenerateMazeGrid(unsigned int mazeSize);
+    void startGenerationMaze(int whichAlgorithmWasChosen);
 };

@@ -24,13 +24,16 @@ public:
     AlgorithmGeneratorMenu(QWidget *parent = nullptr) noexcept;
     ~AlgorithmGeneratorMenu() {};
 
-    enum {AldousBroderAlgorithm};
-
     void initializeMenu();
+    enum {AldousBroderAlgorithm};
 
 signals:
     void algorithmReadyToGenerate();
     void startGenerationMaze(int whichAlgorithmWasChosen);
+    /* Вероятно, не самая лучшая реализация передачи информации о выбранном алгоритме генерации,
+    т.к. подобное решение влечет за собой необходимость переписывания кода в получателе (maze)
+    при необходимости замены алгоритма. Однако, на данный момент при текущей "архитектуре" я не
+    знаю, как это возможно реализовать изящнее */
 
 private slots:
     void slotAldousBroderRadio();

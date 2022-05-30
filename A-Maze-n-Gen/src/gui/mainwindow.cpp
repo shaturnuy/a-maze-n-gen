@@ -9,12 +9,13 @@ MainWindow::MainWindow(QWidget *parent) noexcept
 
     connect(fieldSizeWidget_, &FieldSizeMenu::sendMazeSize, mazeGrid_, &MazeArea::startGenerateMazeGrid);
 
-    connect(mazeGrid_, &MazeArea::fieldReadyToGenerate, algorithmGeneratorWidget_, &AlgorithmGeneratorMenu::activateGenerateButton);
+    connect(mazeGrid_, &MazeArea::fieldReadyToGenerate,
+            algorithmGeneratorWidget_, &AlgorithmGeneratorMenu::activateGenerateButton);
     connect(algorithmGeneratorWidget_, &AlgorithmGeneratorMenu::algorithmReadyToGenerate,
             algorithmGeneratorWidget_, &AlgorithmGeneratorMenu::activateGenerateButton);
 
-//    connect(algorithmGeneratorWidget_, &AlgorithmGeneratorMenu::startGenerationMaze,
-//            mazeGrid_, &MazeArea::);
+    connect(algorithmGeneratorWidget_, &AlgorithmGeneratorMenu::startGenerationMaze,
+            mazeGrid_, &MazeArea::startGenerationMaze);
 }
 
 /*------------------------------------------------------------------------------------------------*/

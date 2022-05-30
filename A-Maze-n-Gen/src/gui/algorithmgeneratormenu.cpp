@@ -58,5 +58,7 @@ void AlgorithmGeneratorMenu::activateGenerateButton()
 /*------------------------------------------------------------------------------------------------*/
 void AlgorithmGeneratorMenu::slotStartGenerationButton()
 {
+    // Выключаем кнопку до момента, пока лабиринт не сгенерируется
+    startGenerationButton_->setDisabled(true);
     emit startGenerationMaze(whichAlgorithmWasChosen_);
 }

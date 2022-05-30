@@ -3,6 +3,7 @@
 #include <QPoint>
 #include <QLineF>
 #include <QGraphicsLineItem>
+#include <QRect>
 
 class Cell
 {
@@ -22,4 +23,6 @@ public:
     QGraphicsLineItem* getBotWall();
     QGraphicsLineItem* getLeftWall();
     QGraphicsLineItem* getRightWall();
+
+    QRect testRect {};
 };

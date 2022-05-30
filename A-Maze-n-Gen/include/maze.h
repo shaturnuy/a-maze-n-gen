@@ -21,6 +21,8 @@ public:
     void generateMazeGrid(unsigned int mazeSize);
     QVector<QVector<Cell>>& getCellGrid();
 
+    void generateAldousBroder();
+
 signals:
     void requestToDrawMazeGrid(QVector<QVector<Cell>>& cellGrid);
 };
