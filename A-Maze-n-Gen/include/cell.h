@@ -9,11 +9,14 @@ class Cell
 {
 private:
     unsigned int cellSize_ {};
+    bool visited_ {false};
 
     QGraphicsLineItem *topWall_ {nullptr};
     QGraphicsLineItem *botWall_ {nullptr};
     QGraphicsLineItem *leftWall_ {nullptr};
     QGraphicsLineItem *rightWall_ {nullptr};
+
+    QRect rectForShowCurrentCell_ {};
 
 public:
     explicit Cell(unsigned int cellSize, unsigned int row, unsigned int col) noexcept;
@@ -24,5 +27,13 @@ public:
     QGraphicsLineItem* getLeftWall();
     QGraphicsLineItem* getRightWall();
 
-    QRect testRect {};
+    void destroyTopWall();
+    void destroyBotWall();
+    void destroyLeftWall();
+    void destroyRightWall();
+
+    const QRect& getRectForShowCurrentCell() const;
+
+    bool isVisited() const;
+    void wasVisited();
 };

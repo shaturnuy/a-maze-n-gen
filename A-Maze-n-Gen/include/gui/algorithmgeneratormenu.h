@@ -25,7 +25,7 @@ public:
     ~AlgorithmGeneratorMenu() {};
 
     void initializeMenu();
-    enum {AldousBroderAlgorithm};
+    enum Algorithm {AldousBroder};
 
 signals:
     void algorithmReadyToGenerate();

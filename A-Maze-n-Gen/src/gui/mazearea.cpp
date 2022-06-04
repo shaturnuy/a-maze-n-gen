@@ -7,6 +7,7 @@ MazeArea::MazeArea(QWidget *parent) noexcept
 
     maze_ = new Maze(MAZE_AREA_SIZE);
     connect(maze_, &Maze::requestToDrawMazeGrid, this, &MazeArea::drawMazeGrid);
+    connect(maze_, &Maze::requestToDrawCurrentCell, this, &MazeArea::drawCurrentCell);
 }
 
 /*------------------------------------------------------------------------------------------------*/
@@ -40,7 +41,6 @@ void MazeArea::drawMazeGrid(QVector<QVector<Cell>>& cellGrid)
         }
     }
 
-    mazeScene_->addRect(QRectF(cellGrid[2][2].testRect), QPen(), QBrush(Qt::darkMagenta, Qt::SolidPattern));
     emit fieldReadyToGenerate();
 }
 
@@ -62,6 +62,13 @@ void MazeArea::startGenerateMazeGrid(unsigned int mazeSize)
 /*------------------------------------------------------------------------------------------------*/
 void MazeArea::startGenerationMaze(int whichAlgorithmWasChosen)
 {
-    if (whichAlgorithmWasChosen == AlgorithmGeneratorMenu::AldousBroderAlgorithm)
+    if (whichAlgorithmWasChosen == AlgorithmGeneratorMenu::Algorithm::AldousBroder)
         maze_->generateAldousBroder();
+}
+
+/*------------------------------------------------------------------------------------------------*/
+void MazeArea::drawCurrentCell(const Cell& cell)
+{
+    mazeScene_->addRect(QRectF(cell.getRectForShowCurrentCell()),
+                        Qt::NoPen, QBrush(Qt::gray, Qt::SolidPattern));
 }

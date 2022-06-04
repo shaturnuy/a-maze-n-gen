@@ -36,7 +36,7 @@ void AlgorithmGeneratorMenu::initializeMenu()
 /*------------------------------------------------------------------------------------------------*/
 void AlgorithmGeneratorMenu::slotAldousBroderRadio()
 {
-    whichAlgorithmWasChosen_ = AlgorithmGeneratorMenu::AldousBroderAlgorithm;
+    whichAlgorithmWasChosen_ = AlgorithmGeneratorMenu::Algorithm::AldousBroder;
     emit algorithmReadyToGenerate();
 }
 
