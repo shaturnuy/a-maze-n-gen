@@ -6,8 +6,7 @@ AlgorithmGeneratorMenu::AlgorithmGeneratorMenu(QWidget *parent) noexcept
     algorithmAldousBroderRadio_ = new QRadioButton("Aldous Broder");
     algorithmRecursiveBacktrackerRadio_ = new QRadioButton("Recursive Backtracker");
     algorithmSidewinderRadio_ = new QRadioButton("Sidewinder");
-
-    startGenerationButton_ = new QPushButton("Start Generation");
+    startGenerationButton_ = new StartStopPushButton();
 
     AlgorithmGeneratorMenu::initializeMenu();
 
@@ -48,7 +47,10 @@ void AlgorithmGeneratorMenu::activateGenerateButton()
         isFieldReadyToGenerate_ = true;
 
     if (isFieldReadyToGenerate_ && isAlgorithmReadyToGenerate_)
+    {
         startGenerationButton_->setDisabled(false);
+        startGenerationButton_->makeStateStart();
+    }
 }
 
 /*------------------------------------------------------------------------------------------------*/
@@ -65,5 +67,9 @@ void AlgorithmGeneratorMenu::setDisabledButtons(bool makeButtonsDisabled)
     algorithmAldousBroderRadio_->setDisabled(makeButtonsDisabled);
     algorithmRecursiveBacktrackerRadio_->setDisabled(makeButtonsDisabled);
     algorithmSidewinderRadio_->setDisabled(makeButtonsDisabled);
-    startGenerationButton_->setDisabled(makeButtonsDisabled);
+
+    if (makeButtonsDisabled == false)
+        startGenerationButton_->makeStateStart();
+    else
+        startGenerationButton_->makeStateStop();
 }

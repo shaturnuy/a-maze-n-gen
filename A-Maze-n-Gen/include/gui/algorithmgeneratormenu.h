@@ -1,6 +1,7 @@
 #pragma once
 
 #include "basewidgetmenu.h"
+#include "startstoppushbutton.h"
 
 #include <QRadioButton>
 #include <QPushButton>
@@ -14,7 +15,7 @@ private:
     QRadioButton *algorithmRecursiveBacktrackerRadio_ {nullptr};
     QRadioButton *algorithmSidewinderRadio_ {nullptr};
 
-    QPushButton *startGenerationButton_ {nullptr};
+    StartStopPushButton *startGenerationButton_ {nullptr};
 
     int whichAlgorithmWasChosen_ {};
     bool isFieldReadyToGenerate_ {false};
