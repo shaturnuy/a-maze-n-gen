@@ -39,6 +39,7 @@ void Maze::generateMaze(int whichAlgorithmWasChosen)
 {
     Coordinate currentCoordinates {0, 0};
     unsigned int visitedCells {1};
+    cellGrid_[0][0].wasVisited();
     cellGrid_[0][0].getRectForShowCurrentCell()->setVisible(true);
     delay(DELAY_MS_IN_GENERATION_CYCLE);
 
@@ -50,12 +51,13 @@ void Maze::generateMaze(int whichAlgorithmWasChosen)
     }
 
     cellGrid_[currentCoordinates.x][currentCoordinates.y].getRectForShowCurrentCell()->setVisible(false);
+    emit mazeWasGenerated();
 }
 
 /*------------------------------------------------------------------------------------------------*/
 void Maze::generateAldousBroder(unsigned int &visitedCells, Coordinate &currentCoordinates)
 {
-    while (visitedCells <= mazeSize_ * mazeSize_)
+    while (visitedCells < mazeSize_ * mazeSize_)
     {
         int whichWayToGo = QRandomGenerator::global()->generate() % 4;
         if (isLegitimateStep(currentCoordinates, whichWayToGo))

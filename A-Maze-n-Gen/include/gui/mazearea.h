@@ -36,6 +36,7 @@ public:
 
 signals:
     void fieldReadyToGenerate();
+    void requestToEnableAllButtons();
 
 public slots:
     void drawMazeGrid(QVector<QVector<Cell>>& cellGrid);

@@ -21,7 +21,7 @@ private:
     QVector<QVector<Cell>> cellGrid_;
 
     enum Direction {Top, Right, Bot, Left};
-    const int DELAY_MS_IN_GENERATION_CYCLE {50};
+    const int DELAY_MS_IN_GENERATION_CYCLE {10};
 
 public:
     explicit Maze(unsigned int mazeGridSizePx) noexcept;
@@ -48,6 +48,7 @@ public:
 
 signals:
     void requestToDrawMazeGrid(QVector<QVector<Cell>>& cellGrid);
+    void mazeWasGenerated();
 };
 
 

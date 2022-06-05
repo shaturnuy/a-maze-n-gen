@@ -27,4 +27,7 @@ public:
     void initializeMazeSettingsMenu();
     void initializeMazeArea();
     void initializeMainWindow();
+
+public slots:
+    void setDisabledAllButtons();
 };

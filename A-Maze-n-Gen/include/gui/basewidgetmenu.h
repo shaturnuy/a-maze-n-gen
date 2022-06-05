@@ -38,4 +38,6 @@ public:
     void setTextLabel(const QString textLabel);
     void addRadioButton(QRadioButton *radioButton);
     void addPushButton(QPushButton *pushButton);
+
+    virtual void setDisabledButtons(bool makeButtonsDisabled) = 0;
 };

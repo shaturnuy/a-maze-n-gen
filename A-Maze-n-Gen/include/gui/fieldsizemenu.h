@@ -20,6 +20,7 @@ public:
     ~FieldSizeMenu() {};
 
     void initializeMenu();
+    void setDisabledButtons(bool makeButtonsDisabled);
 
 signals:
     void sendMazeSize(unsigned int mazeSize);
