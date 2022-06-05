@@ -25,6 +25,14 @@ void FieldSizeMenu::initializeMenu()
 }
 
 /*------------------------------------------------------------------------------------------------*/
+void FieldSizeMenu::setDisabledButtons(bool makeButtonsDisabled)
+{
+    sizeFirstRadio_->setDisabled(makeButtonsDisabled);
+    sizeSecondRadio_->setDisabled(makeButtonsDisabled);
+    sizeThirdRadio_->setDisabled(makeButtonsDisabled);
+}
+
+/*------------------------------------------------------------------------------------------------*/
 void FieldSizeMenu::slotFirstRadio()
 {
     emit sendMazeSize(sizeFirstRadio_->getMazeSize());

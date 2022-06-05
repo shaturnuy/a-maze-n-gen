@@ -9,12 +9,8 @@ AlgorithmGeneratorMenu::AlgorithmGeneratorMenu(QWidget *parent) noexcept
 
     startGenerationButton_ = new QPushButton("Start Generation");
 
-
     AlgorithmGeneratorMenu::initializeMenu();
 
-// TODO
-    algorithmRecursiveBacktrackerRadio_->setDisabled(true);
-    algorithmSidewinderRadio_->setDisabled(true);
 
     connect(algorithmAldousBroderRadio_, &QRadioButton::toggled, this, &AlgorithmGeneratorMenu::slotAldousBroderRadio);
     connect(startGenerationButton_, &QPushButton::clicked, this, &AlgorithmGeneratorMenu::slotStartGenerationButton);
@@ -58,7 +54,16 @@ void AlgorithmGeneratorMenu::activateGenerateButton()
 /*------------------------------------------------------------------------------------------------*/
 void AlgorithmGeneratorMenu::slotStartGenerationButton()
 {
-    // Выключаем кнопку до момента, пока лабиринт не сгенерируется
-    startGenerationButton_->setDisabled(true);
+    // Выключаем кнопки до момента, пока лабиринт не сгенерируется (или не будет остановлен)
+    emit requestToDisableAllButtons();
     emit startGenerationMaze(whichAlgorithmWasChosen_);
+}
+
+/*------------------------------------------------------------------------------------------------*/
+void AlgorithmGeneratorMenu::setDisabledButtons(bool makeButtonsDisabled)
+{
+    algorithmAldousBroderRadio_->setDisabled(makeButtonsDisabled);
+    algorithmRecursiveBacktrackerRadio_->setDisabled(makeButtonsDisabled);
+    algorithmSidewinderRadio_->setDisabled(makeButtonsDisabled);
+    startGenerationButton_->setDisabled(makeButtonsDisabled);
 }

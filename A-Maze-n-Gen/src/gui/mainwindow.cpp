@@ -14,6 +14,10 @@ MainWindow::MainWindow(QWidget *parent) noexcept
     connect(algorithmGeneratorWidget_, &AlgorithmGeneratorMenu::algorithmReadyToGenerate,
             algorithmGeneratorWidget_, &AlgorithmGeneratorMenu::activateGenerateButton);
 
+    connect(algorithmGeneratorWidget_, &AlgorithmGeneratorMenu::requestToDisableAllButtons,
+            this, &MainWindow::setDisabledAllButtons);
+    connect(mazeGrid_, &MazeArea::requestToEnableAllButtons, this, &MainWindow::setDisabledAllButtons);
+
     connect(algorithmGeneratorWidget_, &AlgorithmGeneratorMenu::startGenerationMaze,
             mazeGrid_, &MazeArea::startGenerationMaze);
 }
@@ -49,4 +53,24 @@ void MainWindow::initializeMainWindow()
     mainLayout_->addWidget(mazeGrid_);
     mainLayout_->addLayout(sidebarLayout_);
     setLayout(mainLayout_);
+}
+
+/*------------------------------------------------------------------------------------------------*/
+void MainWindow::setDisabledAllButtons()
+{
+    /* Данный слот связан с двумя сигналами, поэтому производим проверку. Если отправитель mazeArea,
+    значит, что сигнал пришел из лабиринта, который сообщает, что он закончил генерацию и можно
+    снова дать пользователю возможность нажимать кнопки. Если обратное (в данном случае без
+    уточнениния), значит отправитель - AlgoGenerator, который сообщает, что была нажата кнопка
+    начала генерации, а значит надо заблокировать пользователю возможность нажимать кнопки. */
+    if (sender() == mazeGrid_)
+    {
+        algorithmGeneratorWidget_->setDisabledButtons(false);
+        fieldSizeWidget_->setDisabledButtons(false);
+    }
+    else
+    {
+        algorithmGeneratorWidget_->setDisabledButtons(true);
+        fieldSizeWidget_->setDisabledButtons(true);
+    }
 }

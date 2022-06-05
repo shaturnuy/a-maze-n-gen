@@ -25,10 +25,12 @@ public:
     ~AlgorithmGeneratorMenu() {};
 
     void initializeMenu();
+    void setDisabledButtons(bool makeButtonsDisabled);
     enum Algorithm {AldousBroder};
 
 signals:
     void algorithmReadyToGenerate();
+    void requestToDisableAllButtons();
     void startGenerationMaze(int whichAlgorithmWasChosen);
     /* Вероятно, не самая лучшая реализация передачи информации о выбранном алгоритме генерации,
     т.к. подобное решение влечет за собой необходимость переписывания кода в получателе (maze)
