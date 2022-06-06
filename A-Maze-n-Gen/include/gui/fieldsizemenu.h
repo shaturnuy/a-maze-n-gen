@@ -9,8 +9,8 @@ class FieldSizeMenu : public BaseWidgetMenu
 
 private:
     /* Вероятно, следует сделать кнопки и ассоциированные с ними слоты с помощью векторов
-    и указателей на функции (если возможно таким образом создать слоты), ибо сейчас выглядит не очень.
-    Возможно вообще переделать на вводимый юзером размер клеток */
+     * и указателей на функции (если возможно таким образом создать слоты), ибо сейчас выглядит
+     * не очень. Возможно вообще переделать на вводимый юзером размер клеток */
     MazeSizeRadioButton *sizeFirstRadio_ {nullptr};
     MazeSizeRadioButton *sizeSecondRadio_ {nullptr};
     MazeSizeRadioButton *sizeThirdRadio_ {nullptr};

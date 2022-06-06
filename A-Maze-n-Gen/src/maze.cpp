@@ -51,20 +51,30 @@ void Maze::generateMaze(int whichAlgorithmWasChosen)
     }
 
     cellGrid_[currentCoordinates.x][currentCoordinates.y].getRectForShowCurrentCell()->setVisible(false);
+    interruptFlag_ = false;
     emit mazeWasGenerated();
 }
 
 /*------------------------------------------------------------------------------------------------*/
 void Maze::generateAldousBroder(unsigned int &visitedCells, Coordinate &currentCoordinates)
 {
-    while (visitedCells < mazeSize_ * mazeSize_)
+    while (generationLoopExitCondition(visitedCells))
     {
         int whichWayToGo = QRandomGenerator::global()->generate() % 4;
         if (isLegitimateStep(currentCoordinates, whichWayToGo))
-        {
             makeStep(currentCoordinates, whichWayToGo, visitedCells);
-        }
     }
+}
+/*------------------------------------------------------------------------------------------------*/
+void Maze::interruptReceived()
+{
+    interruptFlag_ = true;
+}
+
+/*------------------------------------------------------------------------------------------------*/
+bool Maze::generationLoopExitCondition(unsigned int &visitedCells)
+{
+    return (!interruptFlag_ && visitedCells < mazeSize_ * mazeSize_);
 }
 
 /*------------------------------------------------------------------------------------------------*/
@@ -186,4 +196,16 @@ void Maze::delay(int millisecondsWait)
     t.connect(&t, &QTimer::timeout, &loop, &QEventLoop::quit);
     t.start(millisecondsWait);
     loop.exec();
+}
+
+/*------------------------------------------------------------------------------------------------*/
+void Maze::updateGrid()
+{
+    for (auto row = cellGrid_.begin(); row != cellGrid_.end(); row++)
+    {
+        for (auto col = row->begin(); col != row->end(); col++)
+        {
+            col->updateCell();
+        }
+    }
 }

@@ -19,6 +19,7 @@ private:
     unsigned int mazeSize_ {};
 
     QVector<QVector<Cell>> cellGrid_;
+    bool interruptFlag_ {false};
 
     enum Direction {Top, Right, Bot, Left};
     const int DELAY_MS_IN_GENERATION_CYCLE {10};
@@ -27,12 +28,13 @@ public:
     explicit Maze(unsigned int mazeGridSizePx) noexcept;
     ~Maze() {};
 
-    void generateMazeGrid(unsigned int mazeSize);
     QVector<QVector<Cell>>& getCellGrid();
 
+    void generateMazeGrid(unsigned int mazeSize);
     void generateMaze(int whichAlgorithmWasChosen);
-
     void generateAldousBroder(unsigned int &visitedCells, Coordinate &currentCoordinates);
+    void interruptReceived();
+    bool generationLoopExitCondition(unsigned int &visitedCells);
 
     bool isLegitimateStep(Coordinate coordinate, int stepDirection);
     void makeStep(Coordinate &currentCoordinates, int stepDirection, unsigned int &visitedCellsCounter);
@@ -45,6 +47,7 @@ public:
 
     // https://stackoverflow.com/questions/3752742/how-do-i-create-a-pause-wait-function-using-qt/43003223#43003223
     void delay(int millisecondsWait);
+    void updateGrid();
 
 signals:
     void requestToDrawMazeGrid(QVector<QVector<Cell>>& cellGrid);
