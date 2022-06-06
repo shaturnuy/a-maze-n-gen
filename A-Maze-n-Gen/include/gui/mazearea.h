@@ -42,4 +42,5 @@ public slots:
     void drawMazeGrid(QVector<QVector<Cell>>& cellGrid);
     void startGenerateMazeGrid(unsigned int mazeSize);
     void startGenerationMaze(int whichAlgorithmWasChosen);
+    void interruptGenerationHandling();
 };

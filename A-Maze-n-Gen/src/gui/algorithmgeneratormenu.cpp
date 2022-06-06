@@ -39,8 +39,9 @@ void AlgorithmGeneratorMenu::slotAldousBroderRadio()
 void AlgorithmGeneratorMenu::activateGenerateButton()
 {
     /* Данный слот связан с двуями сигналами, один из которых отправляется из этого же объекта при
-    нажатии кнопки выбора алгоритма генерации. Поэтому здесь происходит проверка "если отправитель
-    этот же объект" ..., а если нет, значит вариантов больше нет и это сигнал из fieldSizeMenu */
+     * нажатии кнопки выбора алгоритма генерации. Поэтому здесь происходит проверка "если
+     * отправитель этот же объект" ..., а если нет, значит вариантов больше нет и это сигнал
+     * из fieldSizeMenu */
     if (sender() == this)
         isAlgorithmReadyToGenerate_ = true;
     else
@@ -56,9 +57,16 @@ void AlgorithmGeneratorMenu::activateGenerateButton()
 /*------------------------------------------------------------------------------------------------*/
 void AlgorithmGeneratorMenu::slotStartGenerationButton()
 {
-    // Выключаем кнопки до момента, пока лабиринт не сгенерируется (или не будет остановлен)
-    emit requestToDisableAllButtons();
-    emit startGenerationMaze(whichAlgorithmWasChosen_);
+    if (startGenerationButton_->checkCurrentButtonState() == StartStopPushButton::ButtonState::Start)
+    {
+        // Выключаем кнопки до момента, пока лабиринт не сгенерируется (или не будет остановлен)
+        emit requestToDisableAllButtons();
+        emit startGenerationMaze(whichAlgorithmWasChosen_);
+    }
+    else
+    {
+        emit interruptGeneration();
+    }
 }
 
 /*------------------------------------------------------------------------------------------------*/

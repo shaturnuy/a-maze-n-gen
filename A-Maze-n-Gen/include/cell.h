@@ -39,4 +39,6 @@ public:
 
     bool isVisited() const;
     void wasVisited();
+
+    void updateCell();
 };

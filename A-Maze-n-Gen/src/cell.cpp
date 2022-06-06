@@ -1,7 +1,8 @@
 #include "cell.h"
 
 Cell::Cell(unsigned int cellSize, unsigned int row, unsigned int col) noexcept
-    : cellSize_(cellSize)
+    : cellSize_(cellSize),
+      visited_(false)
 {
     QPoint leftTopPoint {};
     QPoint rightTopPoint {};
@@ -32,12 +33,12 @@ Cell::Cell(unsigned int cellSize, unsigned int row, unsigned int col) noexcept
     rightWall_->setLine(QLineF(rightTopPoint, rightBotPoint));
 
     /* Координаты второй точки необходимо уменьшить на 1, т.к. квадрат отображается на 1 пиксель
-    больше, чем узлы сетки, построенной на линиях */
+     * больше, чем узлы сетки, построенной на линиях */
     rightBotPoint.setX(rightBotPoint.x() - 1);
     rightBotPoint.setY(rightBotPoint.y() - 1);
 
     /* Идея в том, чтобы сразу добавить все квадраты, которые отображают текущую ячейку лабиринта,
-    на сцену. Квадрат сразу прячется и убирается на второй план, чтобы не мешать стенкам */
+     * на сцену. Квадрат сразу прячется и убирается на второй план, чтобы не мешать стенкам */
     rectForShowCurrentCell_ = new QGraphicsRectItem(QRectF(QRect(leftTopPoint, rightBotPoint)));
     rectForShowCurrentCell_->setVisible(false);
     rectForShowCurrentCell_->setZValue(-1);
@@ -109,4 +110,14 @@ bool Cell::isVisited() const
 void Cell::wasVisited()
 {
     visited_ = true;
+}
+
+/*------------------------------------------------------------------------------------------------*/
+void Cell::updateCell()
+{
+    topWall_->setVisible(true);
+    botWall_->setVisible(true);
+    leftWall_->setVisible(true);
+    rightWall_->setVisible(true);
+    visited_ = false;
 }

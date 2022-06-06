@@ -9,6 +9,7 @@ StartStopPushButton::StartStopPushButton() noexcept
 /*------------------------------------------------------------------------------------------------*/
 void StartStopPushButton::makeStateStart()
 {
+    currentButtonState_ = ButtonState::Start;
     setStyleSheet(startStateColor_);
     setText("Start Generation");
 }
@@ -16,6 +17,13 @@ void StartStopPushButton::makeStateStart()
 /*------------------------------------------------------------------------------------------------*/
 void StartStopPushButton::makeStateStop()
 {
+    currentButtonState_ = ButtonState::Stop;
     setStyleSheet(stopStateColor_);
     setText("STOP");
+}
+
+/*------------------------------------------------------------------------------------------------*/
+const int& StartStopPushButton::checkCurrentButtonState() const
+{
+    return currentButtonState_;
 }
