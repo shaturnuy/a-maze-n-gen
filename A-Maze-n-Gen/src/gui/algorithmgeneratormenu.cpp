@@ -11,8 +11,12 @@ AlgorithmGeneratorMenu::AlgorithmGeneratorMenu(QWidget *parent) noexcept
     AlgorithmGeneratorMenu::initializeMenu();
 
 
-    connect(algorithmAldousBroderRadio_, &QRadioButton::toggled, this, &AlgorithmGeneratorMenu::slotAldousBroderRadio);
-    connect(startGenerationButton_, &QPushButton::clicked, this, &AlgorithmGeneratorMenu::slotStartGenerationButton);
+    connect(algorithmAldousBroderRadio_, &QRadioButton::toggled,
+            this, &AlgorithmGeneratorMenu::slotAldousBroderRadio);
+    connect(algorithmRecursiveBacktrackerRadio_, &QRadioButton::toggled,
+            this, &AlgorithmGeneratorMenu::slotRecursiveBacktrackerRadio);
+    connect(startGenerationButton_, &QPushButton::clicked,
+            this, &AlgorithmGeneratorMenu::slotStartGenerationButton);
 }
 
 /*------------------------------------------------------------------------------------------------*/
@@ -32,6 +36,13 @@ void AlgorithmGeneratorMenu::initializeMenu()
 void AlgorithmGeneratorMenu::slotAldousBroderRadio()
 {
     whichAlgorithmWasChosen_ = AlgorithmGeneratorMenu::Algorithm::AldousBroder;
+    emit algorithmReadyToGenerate();
+}
+
+/*------------------------------------------------------------------------------------------------*/
+void AlgorithmGeneratorMenu::slotRecursiveBacktrackerRadio()
+{
+    whichAlgorithmWasChosen_ = AlgorithmGeneratorMenu::Algorithm::RecursiveBacktracker;
     emit algorithmReadyToGenerate();
 }
 
