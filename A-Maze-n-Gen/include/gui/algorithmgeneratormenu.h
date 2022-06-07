@@ -27,7 +27,7 @@ public:
 
     void initializeMenu();
     void setDisabledButtons(bool makeButtonsDisabled);
-    enum Algorithm {AldousBroder};
+    enum Algorithm {AldousBroder, RecursiveBacktracker};
 
 signals:
     void algorithmReadyToGenerate();
@@ -41,6 +41,7 @@ signals:
 
 private slots:
     void slotAldousBroderRadio();
+    void slotRecursiveBacktrackerRadio();
     void slotStartGenerationButton();
 
 public slots:

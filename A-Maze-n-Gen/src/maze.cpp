@@ -45,8 +45,11 @@ void Maze::generateMaze(int whichAlgorithmWasChosen)
 
     switch (whichAlgorithmWasChosen)
     {
-    case AlgorithmGeneratorMenu::AldousBroder :
+    case AlgorithmGeneratorMenu::Algorithm::AldousBroder :
         generateAldousBroder(visitedCells, currentCoordinates);
+        break;
+    case AlgorithmGeneratorMenu::Algorithm::RecursiveBacktracker :
+        generateRecursiveBacktracker(visitedCells, currentCoordinates);
         break;
     }
 
@@ -60,11 +63,69 @@ void Maze::generateAldousBroder(unsigned int &visitedCells, Coordinate &currentC
 {
     while (generationLoopExitCondition(visitedCells))
     {
-        int whichWayToGo = QRandomGenerator::global()->generate() % 4;
+        int whichWayToGo = QRandomGenerator::global()->generate() % Direction::Count;
         if (isLegitimateStep(currentCoordinates, whichWayToGo))
             makeStep(currentCoordinates, whichWayToGo, visitedCells);
     }
 }
+
+/*------------------------------------------------------------------------------------------------*/
+void Maze::generateRecursiveBacktracker(unsigned int &visitedCells, Coordinate &currentCoordinates)
+{
+    QStack<Coordinate> backtrackingStack {};
+    backtrackingStack.push(currentCoordinates);
+
+    while (generationLoopExitCondition(visitedCells))
+    {
+        int whichWayToGo = checkNeighborsAndDecideWhichWayToGo(backtrackingStack.top());
+        if (whichWayToGo != Direction::Forbidden)
+        {
+            makeStep(backtrackingStack.top(), whichWayToGo, visitedCells);
+            backtrackingStack.push(backtrackingStack.top());
+        }
+        else
+        {
+            cellGrid_[backtrackingStack.top().x][backtrackingStack.top().y].
+                    getRectForShowCurrentCell()->setVisible(false);
+            backtrackingStack.pop();
+        }
+    }
+    currentCoordinates = backtrackingStack.top();
+}
+
+/*------------------------------------------------------------------------------------------------*/
+int Maze::checkNeighborsAndDecideWhichWayToGo(Coordinate currentCoordinates)
+{
+    QBitArray cellNeighborsState(Direction::Count);
+
+    if (isLegitimateStep(currentCoordinates, Direction::Top) &&
+            !cellGrid_[currentCoordinates.x][currentCoordinates.y - 1].isVisited())
+        cellNeighborsState.setBit(Direction::Top, true);
+
+    if (isLegitimateStep(currentCoordinates, Direction::Right) &&
+            !cellGrid_[currentCoordinates.x + 1][currentCoordinates.y].isVisited())
+        cellNeighborsState.setBit(Direction::Right, true);
+
+    if (isLegitimateStep(currentCoordinates, Direction::Bot) &&
+            !cellGrid_[currentCoordinates.x][currentCoordinates.y + 1].isVisited())
+        cellNeighborsState.setBit(Direction::Bot, true);
+
+    if (isLegitimateStep(currentCoordinates, Direction::Left) &&
+            !cellGrid_[currentCoordinates.x - 1][currentCoordinates.y].isVisited())
+        cellNeighborsState.setBit(Direction::Left, true);
+
+
+    if (cellNeighborsState == QBitArray(Direction::Count, false))
+        return Direction::Forbidden;
+    else
+    {
+        int whichWayToGo = QRandomGenerator::global()->generate() % Direction::Count;
+        while (cellNeighborsState[whichWayToGo] != true)
+            whichWayToGo = QRandomGenerator::global()->generate() % Direction::Count;
+        return whichWayToGo;
+    }
+}
+
 /*------------------------------------------------------------------------------------------------*/
 void Maze::interruptReceived()
 {
@@ -199,13 +260,13 @@ void Maze::delay(int millisecondsWait)
 }
 
 /*------------------------------------------------------------------------------------------------*/
-void Maze::updateGrid()
+void Maze::resetGrid()
 {
     for (auto row = cellGrid_.begin(); row != cellGrid_.end(); row++)
     {
         for (auto col = row->begin(); col != row->end(); col++)
         {
-            col->updateCell();
+            col->resetCell();
         }
     }
 }

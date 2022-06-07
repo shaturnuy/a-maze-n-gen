@@ -4,9 +4,11 @@
 #include "gui/algorithmgeneratormenu.h"
 
 #include <QVector>
+#include <QStack>
 #include <QRandomGenerator>
 #include <QEventLoop>
 #include <QTimer>
+#include <QBitArray>
 
 struct Coordinate;
 
@@ -21,8 +23,8 @@ private:
     QVector<QVector<Cell>> cellGrid_;
     bool interruptFlag_ {false};
 
-    enum Direction {Top, Right, Bot, Left};
-    const int DELAY_MS_IN_GENERATION_CYCLE {10};
+    enum Direction {Forbidden = -1, Top, Right, Bot, Left, Count};
+    const int DELAY_MS_IN_GENERATION_CYCLE {50};
 
 public:
     explicit Maze(unsigned int mazeGridSizePx) noexcept;
@@ -31,11 +33,15 @@ public:
     QVector<QVector<Cell>>& getCellGrid();
 
     void generateMazeGrid(unsigned int mazeSize);
+
     void generateMaze(int whichAlgorithmWasChosen);
     void generateAldousBroder(unsigned int &visitedCells, Coordinate &currentCoordinates);
+    void generateRecursiveBacktracker(unsigned int &visitedCells, Coordinate &currentCoordinates);
+
     void interruptReceived();
     bool generationLoopExitCondition(unsigned int &visitedCells);
 
+    int checkNeighborsAndDecideWhichWayToGo(Coordinate currentCoordinates);
     bool isLegitimateStep(Coordinate coordinate, int stepDirection);
     void makeStep(Coordinate &currentCoordinates, int stepDirection, unsigned int &visitedCellsCounter);
     void markCellAfterStep(Coordinate currentCoordinates, Coordinate newCoordinates);
@@ -47,7 +53,7 @@ public:
 
     // https://stackoverflow.com/questions/3752742/how-do-i-create-a-pause-wait-function-using-qt/43003223#43003223
     void delay(int millisecondsWait);
-    void updateGrid();
+    void resetGrid();
 
 signals:
     void requestToDrawMazeGrid(QVector<QVector<Cell>>& cellGrid);
@@ -61,4 +67,5 @@ struct Coordinate
     int y;
     Coordinate() : x(0), y(0) {};
     Coordinate(int x, int y) : x(x), y(y) {};
+    inline bool operator==(const Coordinate &other) {return (x == other.x) && (y == other.y);};
 };

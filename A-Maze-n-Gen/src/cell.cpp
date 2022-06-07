@@ -113,7 +113,7 @@ void Cell::wasVisited()
 }
 
 /*------------------------------------------------------------------------------------------------*/
-void Cell::updateCell()
+void Cell::resetCell()
 {
     topWall_->setVisible(true);
     botWall_->setVisible(true);
