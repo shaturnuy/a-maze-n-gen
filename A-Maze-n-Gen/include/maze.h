@@ -37,6 +37,7 @@ public:
     void generateMaze(int whichAlgorithmWasChosen);
     void generateAldousBroder(unsigned int &visitedCells, Coordinate &currentCoordinates);
     void generateRecursiveBacktracker(unsigned int &visitedCells, Coordinate &currentCoordinates);
+    void generateWilson(unsigned int &visitedCells, Coordinate &currentCoordinates);
 
     void interruptReceived();
     bool generationLoopExitCondition(unsigned int &visitedCells);
@@ -67,5 +68,6 @@ struct Coordinate
     int y;
     Coordinate() : x(0), y(0) {};
     Coordinate(int x, int y) : x(x), y(y) {};
-    inline bool operator==(const Coordinate &other) {return (x == other.x) && (y == other.y);};
+    bool operator==(const Coordinate &other) const;
+    bool operator!=(const Coordinate &other) const;
 };

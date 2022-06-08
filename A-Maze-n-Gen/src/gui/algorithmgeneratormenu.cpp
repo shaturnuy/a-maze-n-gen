@@ -5,7 +5,7 @@ AlgorithmGeneratorMenu::AlgorithmGeneratorMenu(QWidget *parent) noexcept
 {
     algorithmAldousBroderRadio_ = new QRadioButton("Aldous Broder");
     algorithmRecursiveBacktrackerRadio_ = new QRadioButton("Recursive Backtracker");
-    algorithmSidewinderRadio_ = new QRadioButton("Sidewinder");
+    algorithmWilsonRadio_ = new QRadioButton("Wilson");
     startGenerationButton_ = new StartStopPushButton();
 
     AlgorithmGeneratorMenu::initializeMenu();
@@ -15,6 +15,8 @@ AlgorithmGeneratorMenu::AlgorithmGeneratorMenu(QWidget *parent) noexcept
             this, &AlgorithmGeneratorMenu::slotAldousBroderRadio);
     connect(algorithmRecursiveBacktrackerRadio_, &QRadioButton::toggled,
             this, &AlgorithmGeneratorMenu::slotRecursiveBacktrackerRadio);
+    connect(algorithmWilsonRadio_, &QRadioButton::toggled,
+            this, &AlgorithmGeneratorMenu::slotWilsonRadio);
     connect(startGenerationButton_, &QPushButton::clicked,
             this, &AlgorithmGeneratorMenu::slotStartGenerationButton);
 }
@@ -26,7 +28,7 @@ void AlgorithmGeneratorMenu::initializeMenu()
 
     addRadioButton(algorithmAldousBroderRadio_);
     addRadioButton(algorithmRecursiveBacktrackerRadio_);
-    addRadioButton(algorithmSidewinderRadio_);
+    addRadioButton(algorithmWilsonRadio_);
 
     addPushButton(startGenerationButton_);
     startGenerationButton_->setDisabled(true);
@@ -43,6 +45,13 @@ void AlgorithmGeneratorMenu::slotAldousBroderRadio()
 void AlgorithmGeneratorMenu::slotRecursiveBacktrackerRadio()
 {
     whichAlgorithmWasChosen_ = AlgorithmGeneratorMenu::Algorithm::RecursiveBacktracker;
+    emit algorithmReadyToGenerate();
+}
+
+/*------------------------------------------------------------------------------------------------*/
+void AlgorithmGeneratorMenu::slotWilsonRadio()
+{
+    whichAlgorithmWasChosen_ = AlgorithmGeneratorMenu::Algorithm::Wilson;
     emit algorithmReadyToGenerate();
 }
 
@@ -85,7 +94,7 @@ void AlgorithmGeneratorMenu::setDisabledButtons(bool makeButtonsDisabled)
 {
     algorithmAldousBroderRadio_->setDisabled(makeButtonsDisabled);
     algorithmRecursiveBacktrackerRadio_->setDisabled(makeButtonsDisabled);
-    algorithmSidewinderRadio_->setDisabled(makeButtonsDisabled);
+    algorithmWilsonRadio_->setDisabled(makeButtonsDisabled);
 
     if (makeButtonsDisabled == false)
         startGenerationButton_->makeStateStart();

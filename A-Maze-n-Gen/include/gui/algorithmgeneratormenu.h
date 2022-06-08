@@ -13,7 +13,7 @@ class AlgorithmGeneratorMenu : public BaseWidgetMenu
 private:
     QRadioButton *algorithmAldousBroderRadio_ {nullptr};
     QRadioButton *algorithmRecursiveBacktrackerRadio_ {nullptr};
-    QRadioButton *algorithmSidewinderRadio_ {nullptr};
+    QRadioButton *algorithmWilsonRadio_ {nullptr};
 
     StartStopPushButton *startGenerationButton_ {nullptr};
 
@@ -27,7 +27,7 @@ public:
 
     void initializeMenu();
     void setDisabledButtons(bool makeButtonsDisabled);
-    enum Algorithm {AldousBroder, RecursiveBacktracker};
+    enum Algorithm {AldousBroder, RecursiveBacktracker, Wilson};
 
 signals:
     void algorithmReadyToGenerate();
@@ -42,6 +42,7 @@ signals:
 private slots:
     void slotAldousBroderRadio();
     void slotRecursiveBacktrackerRadio();
+    void slotWilsonRadio();
     void slotStartGenerationButton();
 
 public slots:

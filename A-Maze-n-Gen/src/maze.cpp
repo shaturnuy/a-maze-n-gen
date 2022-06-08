@@ -51,6 +51,9 @@ void Maze::generateMaze(int whichAlgorithmWasChosen)
     case AlgorithmGeneratorMenu::Algorithm::RecursiveBacktracker :
         generateRecursiveBacktracker(visitedCells, currentCoordinates);
         break;
+    case AlgorithmGeneratorMenu::Algorithm::Wilson :
+        generateWilson(visitedCells, currentCoordinates);
+        break;
     }
 
     cellGrid_[currentCoordinates.x][currentCoordinates.y].getRectForShowCurrentCell()->setVisible(false);
@@ -91,6 +94,80 @@ void Maze::generateRecursiveBacktracker(unsigned int &visitedCells, Coordinate &
         }
     }
     currentCoordinates = backtrackingStack.top();
+}
+
+/*------------------------------------------------------------------------------------------------*/
+void Maze::generateWilson(unsigned int &visitedCells, Coordinate &currentCoordinates)
+{
+    QStack<Coordinate> currentPathStack {};
+    QVector<Coordinate> cellsAlreadyInMaze {};
+    cellsAlreadyInMaze.push_back(currentCoordinates);
+    cellGrid_[0][0].getRectForShowCurrentCell()->setVisible(false);
+
+    while (generationLoopExitCondition(visitedCells))
+    {
+        while (cellsAlreadyInMaze.contains(currentCoordinates))
+        {
+            currentCoordinates = Coordinate(QRandomGenerator::global()->generate() % mazeSize_,
+                                            QRandomGenerator::global()->generate() % mazeSize_);
+        }
+        cellGrid_[currentCoordinates.x][currentCoordinates.y].
+                getRectForShowCurrentCell()->setVisible(true);
+        cellGrid_[currentCoordinates.x][currentCoordinates.y].wasVisited();
+        currentPathStack.push(currentCoordinates);
+
+        while (!cellsAlreadyInMaze.contains(currentCoordinates))
+        {
+            int whichWayToGo = QRandomGenerator::global()->generate() % Direction::Count;
+            if (isLegitimateStep(currentCoordinates, whichWayToGo))
+            {
+                makeStep(currentCoordinates, whichWayToGo, visitedCells);
+                if (!currentPathStack.contains(currentCoordinates))
+                {
+                    currentPathStack.push(currentCoordinates);
+                }
+                else
+                {
+                    while (currentCoordinates != currentPathStack.top())
+                    {
+                        Coordinate savedCord = currentPathStack.top();
+                        currentPathStack.pop();
+                        Coordinate tempCord = Coordinate(savedCord.x - currentPathStack.top().x, savedCord.y - currentPathStack.top().y);
+//                        cellGrid_[currentPathStack.top().x][currentPathStack.top().y].visited_ = false;
+
+                        if (tempCord.x == 1)
+                        {
+                            cellGrid_[savedCord.x][savedCord.y].getLeftWall()->setVisible(true);
+                            cellGrid_[currentPathStack.top().x][currentPathStack.top().y].getRightWall()->setVisible(true);
+                        }
+                        if (tempCord.x == -1)
+                        {
+                            cellGrid_[savedCord.x][savedCord.y].getRightWall()->setVisible(true);
+                            cellGrid_[currentPathStack.top().x][currentPathStack.top().y].getLeftWall()->setVisible(true);
+                        }
+                        if (tempCord.y == 1)
+                        {
+                            cellGrid_[savedCord.x][savedCord.y].getTopWall()->setVisible(true);
+                            cellGrid_[currentPathStack.top().x][currentPathStack.top().y].getBotWall()->setVisible(true);
+                        }
+                        if (tempCord.y == -1)
+                        {
+                            cellGrid_[savedCord.x][savedCord.y].getBotWall()->setVisible(true);
+                            cellGrid_[currentPathStack.top().x][currentPathStack.top().y].getTopWall()->setVisible(true);
+                        }
+                        visitedCells--;
+                    }
+                    cellGrid_[currentCoordinates.x][currentCoordinates.y].wasVisited();
+                }
+            }
+        }
+        cellGrid_[currentCoordinates.x][currentCoordinates.y].getRectForShowCurrentCell()->setVisible(false);
+        while (currentPathStack.size() != 0)
+        {
+            cellsAlreadyInMaze.push_back(currentPathStack.top());
+            currentPathStack.pop();
+        }
+    }
 }
 
 /*------------------------------------------------------------------------------------------------*/
@@ -269,4 +346,16 @@ void Maze::resetGrid()
             col->resetCell();
         }
     }
+}
+
+/*------------------------------------------------------------------------------------------------*/
+bool Coordinate::operator==(const Coordinate &other) const
+{
+    return (x == other.x) && (y == other.y);
+}
+
+/*------------------------------------------------------------------------------------------------*/
+bool Coordinate::operator!=(const Coordinate &other) const
+{
+    return (x != other.x) || (y != other.y);
 }
