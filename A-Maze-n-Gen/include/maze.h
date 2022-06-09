@@ -24,7 +24,7 @@ private:
     bool interruptFlag_ {false};
 
     enum Direction {Forbidden = -1, Top, Right, Bot, Left, Count};
-    const int DELAY_MS_IN_GENERATION_CYCLE {50};
+    const int DELAY_MS_IN_GENERATION_CYCLE {1};
 
 public:
     explicit Maze(unsigned int mazeGridSizePx) noexcept;
