@@ -106,17 +106,28 @@ void Maze::generateWilson(unsigned int &visitedCells, Coordinate &currentCoordin
 
     while (generationLoopExitCondition(visitedCells))
     {
+        currentCoordinates.x = 0;
+        currentCoordinates.y = 0;
         while (cellsAlreadyInMaze.contains(currentCoordinates))
         {
             currentCoordinates = Coordinate(QRandomGenerator::global()->generate() % mazeSize_,
                                             QRandomGenerator::global()->generate() % mazeSize_);
         }
+//        {
+//            if (currentCoordinates.x < mazeSize_ - 1)
+//                currentCoordinates.x++;
+//            else if (currentCoordinates.x == mazeSize_ - 1)
+//            {
+//                currentCoordinates.x = 0;
+//                currentCoordinates.y++;
+//            }
+//        }
         cellGrid_[currentCoordinates.x][currentCoordinates.y].
                 getRectForShowCurrentCell()->setVisible(true);
         cellGrid_[currentCoordinates.x][currentCoordinates.y].wasVisited();
         currentPathStack.push(currentCoordinates);
 
-        while (!cellsAlreadyInMaze.contains(currentCoordinates))
+        while (!cellsAlreadyInMaze.contains(currentCoordinates) && !interruptFlag_)
         {
             int whichWayToGo = QRandomGenerator::global()->generate() % Direction::Count;
             if (isLegitimateStep(currentCoordinates, whichWayToGo))
@@ -133,7 +144,7 @@ void Maze::generateWilson(unsigned int &visitedCells, Coordinate &currentCoordin
                         Coordinate savedCord = currentPathStack.top();
                         currentPathStack.pop();
                         Coordinate tempCord = Coordinate(savedCord.x - currentPathStack.top().x, savedCord.y - currentPathStack.top().y);
-//                        cellGrid_[currentPathStack.top().x][currentPathStack.top().y].visited_ = false;
+                        cellGrid_[savedCord.x][savedCord.y].visited_ = false;
 
                         if (tempCord.x == 1)
                         {
@@ -155,18 +166,41 @@ void Maze::generateWilson(unsigned int &visitedCells, Coordinate &currentCoordin
                             cellGrid_[savedCord.x][savedCord.y].getBotWall()->setVisible(true);
                             cellGrid_[currentPathStack.top().x][currentPathStack.top().y].getTopWall()->setVisible(true);
                         }
-                        visitedCells--;
                     }
-                    cellGrid_[currentCoordinates.x][currentCoordinates.y].wasVisited();
+                    visitedCells = cellsAlreadyInMaze.size() + currentPathStack.size();
                 }
             }
         }
         cellGrid_[currentCoordinates.x][currentCoordinates.y].getRectForShowCurrentCell()->setVisible(false);
+        currentPathStack.pop();
+        Coordinate tempCord = Coordinate(currentCoordinates.x - currentPathStack.top().x, currentCoordinates.y - currentPathStack.top().y);
+        if (tempCord.x == 1)
+        {
+            cellGrid_[currentCoordinates.x][currentCoordinates.y].getLeftWall()->setVisible(false);
+            cellGrid_[currentPathStack.top().x][currentPathStack.top().y].getRightWall()->setVisible(false);
+        }
+        if (tempCord.x == -1)
+        {
+            cellGrid_[currentCoordinates.x][currentCoordinates.y].getRightWall()->setVisible(false);
+            cellGrid_[currentPathStack.top().x][currentPathStack.top().y].getLeftWall()->setVisible(false);
+        }
+        if (tempCord.y == 1)
+        {
+            cellGrid_[currentCoordinates.x][currentCoordinates.y].getTopWall()->setVisible(false);
+            cellGrid_[currentPathStack.top().x][currentPathStack.top().y].getBotWall()->setVisible(false);
+        }
+        if (tempCord.y == -1)
+        {
+            cellGrid_[currentCoordinates.x][currentCoordinates.y].getBotWall()->setVisible(false);
+            cellGrid_[currentPathStack.top().x][currentPathStack.top().y].getTopWall()->setVisible(false);
+        }
         while (currentPathStack.size() != 0)
         {
             cellsAlreadyInMaze.push_back(currentPathStack.top());
             currentPathStack.pop();
         }
+        currentPathStack.clear();
+        visitedCells = cellsAlreadyInMaze.size();
     }
 }
 
