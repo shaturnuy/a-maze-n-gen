@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cell.h"
+#include "coordinate.h"
 #include "gui/algorithmgeneratormenu.h"
 
 #include <QVector>
@@ -33,16 +34,20 @@ public:
     QVector<QVector<Cell>>& getCellGrid();
 
     void generateMazeGrid(unsigned int mazeSize);
+    void resetGrid();
+
+    void interruptReceived();
+    bool generationLoopExitCondition(unsigned int &visitedCells);
 
     void generateMaze(int whichAlgorithmWasChosen);
     void generateAldousBroder(unsigned int &visitedCells, Coordinate &currentCoordinates);
     void generateRecursiveBacktracker(unsigned int &visitedCells, Coordinate &currentCoordinates);
     void generateWilson(unsigned int &visitedCells, Coordinate &currentCoordinates);
 
-    void interruptReceived();
-    bool generationLoopExitCondition(unsigned int &visitedCells);
-
     int checkNeighborsAndDecideWhichWayToGo(Coordinate currentCoordinates);
+    void chooseRandomNonAddedCoordinates(Coordinate &currentCoordinates, QVector<Coordinate> &cellsAlreadyInMaze);
+    void makeStepBack(Coordinate currentCoordinates, Coordinate previousCoordinates, bool isWallsNeedToRebuild);
+
     bool isLegitimateStep(Coordinate coordinate, int stepDirection);
     void makeStep(Coordinate &currentCoordinates, int stepDirection, unsigned int &visitedCellsCounter);
     void markCellAfterStep(Coordinate currentCoordinates, Coordinate newCoordinates);
@@ -54,7 +59,6 @@ public:
 
     // https://stackoverflow.com/questions/3752742/how-do-i-create-a-pause-wait-function-using-qt/43003223#43003223
     void delay(int millisecondsWait);
-    void resetGrid();
 
 signals:
     void requestToDrawMazeGrid(QVector<QVector<Cell>>& cellGrid);
@@ -62,12 +66,4 @@ signals:
 };
 
 
-struct Coordinate
-{
-    int x;
-    int y;
-    Coordinate() : x(0), y(0) {};
-    Coordinate(int x, int y) : x(x), y(y) {};
-    bool operator==(const Coordinate &other) const;
-    bool operator!=(const Coordinate &other) const;
-};
+

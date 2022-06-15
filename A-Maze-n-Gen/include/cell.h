@@ -12,7 +12,7 @@ class Cell
 {
 private:
     unsigned int cellSize_ {};
-//    bool visited_ {false};
+    bool visited_ {false};
 
     QGraphicsLineItem *topWall_ {nullptr};
     QGraphicsLineItem *botWall_ {nullptr};
@@ -39,6 +39,7 @@ public:
 
     bool isVisited() const;
     void wasVisited();
-    bool visited_ {false};
+    void setUnvisited();
+
     void resetCell();
 };

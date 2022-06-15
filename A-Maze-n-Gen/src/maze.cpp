@@ -6,6 +6,12 @@ Maze::Maze(unsigned int mazeGridSizePx) noexcept
 }
 
 /*------------------------------------------------------------------------------------------------*/
+QVector<QVector<Cell>>& Maze::getCellGrid()
+{
+    return cellGrid_;
+}
+
+/*------------------------------------------------------------------------------------------------*/
 void Maze::generateMazeGrid(unsigned int mazeSize)
 {
     // Перед генерацией поля очищаем его от старых значений
@@ -29,9 +35,27 @@ void Maze::generateMazeGrid(unsigned int mazeSize)
 }
 
 /*------------------------------------------------------------------------------------------------*/
-QVector<QVector<Cell>>& Maze::getCellGrid()
+void Maze::resetGrid()
 {
-    return cellGrid_;
+    for (auto row = cellGrid_.begin(); row != cellGrid_.end(); row++)
+    {
+        for (auto col = row->begin(); col != row->end(); col++)
+        {
+            col->resetCell();
+        }
+    }
+}
+
+/*------------------------------------------------------------------------------------------------*/
+void Maze::interruptReceived()
+{
+    interruptFlag_ = true;
+}
+
+/*------------------------------------------------------------------------------------------------*/
+bool Maze::generationLoopExitCondition(unsigned int &visitedCells)
+{
+    return (!interruptFlag_ && visitedCells < mazeSize_ * mazeSize_);
 }
 
 /*------------------------------------------------------------------------------------------------*/
@@ -106,27 +130,12 @@ void Maze::generateWilson(unsigned int &visitedCells, Coordinate &currentCoordin
 
     while (generationLoopExitCondition(visitedCells))
     {
-        currentCoordinates.x = 0;
-        currentCoordinates.y = 0;
-        while (cellsAlreadyInMaze.contains(currentCoordinates))
-        {
-            currentCoordinates = Coordinate(QRandomGenerator::global()->generate() % mazeSize_,
-                                            QRandomGenerator::global()->generate() % mazeSize_);
-        }
-//        {
-//            if (currentCoordinates.x < mazeSize_ - 1)
-//                currentCoordinates.x++;
-//            else if (currentCoordinates.x == mazeSize_ - 1)
-//            {
-//                currentCoordinates.x = 0;
-//                currentCoordinates.y++;
-//            }
-//        }
-        cellGrid_[currentCoordinates.x][currentCoordinates.y].
-                getRectForShowCurrentCell()->setVisible(true);
-        cellGrid_[currentCoordinates.x][currentCoordinates.y].wasVisited();
+        chooseRandomNonAddedCoordinates(currentCoordinates, cellsAlreadyInMaze);
         currentPathStack.push(currentCoordinates);
 
+        /* Данный цикл строит ветку лабиринта из случайной клетки до включенных в лабиринт клеток.
+         * Цикл может длиться очень долго и необходимо иметь возможность его прервать,
+         * поэтому здесь также отслеживаем флаг прерывания */
         while (!cellsAlreadyInMaze.contains(currentCoordinates) && !interruptFlag_)
         {
             int whichWayToGo = QRandomGenerator::global()->generate() % Direction::Count;
@@ -141,65 +150,31 @@ void Maze::generateWilson(unsigned int &visitedCells, Coordinate &currentCoordin
                 {
                     while (currentCoordinates != currentPathStack.top())
                     {
-                        Coordinate savedCord = currentPathStack.top();
+                        Coordinate savedCoordinates = currentPathStack.top();
                         currentPathStack.pop();
-                        Coordinate tempCord = Coordinate(savedCord.x - currentPathStack.top().x, savedCord.y - currentPathStack.top().y);
-                        cellGrid_[savedCord.x][savedCord.y].visited_ = false;
-
-                        if (tempCord.x == 1)
-                        {
-                            cellGrid_[savedCord.x][savedCord.y].getLeftWall()->setVisible(true);
-                            cellGrid_[currentPathStack.top().x][currentPathStack.top().y].getRightWall()->setVisible(true);
-                        }
-                        if (tempCord.x == -1)
-                        {
-                            cellGrid_[savedCord.x][savedCord.y].getRightWall()->setVisible(true);
-                            cellGrid_[currentPathStack.top().x][currentPathStack.top().y].getLeftWall()->setVisible(true);
-                        }
-                        if (tempCord.y == 1)
-                        {
-                            cellGrid_[savedCord.x][savedCord.y].getTopWall()->setVisible(true);
-                            cellGrid_[currentPathStack.top().x][currentPathStack.top().y].getBotWall()->setVisible(true);
-                        }
-                        if (tempCord.y == -1)
-                        {
-                            cellGrid_[savedCord.x][savedCord.y].getBotWall()->setVisible(true);
-                            cellGrid_[currentPathStack.top().x][currentPathStack.top().y].getTopWall()->setVisible(true);
-                        }
+                        makeStepBack(savedCoordinates, currentPathStack.top(), true);
                     }
-                    visitedCells = cellsAlreadyInMaze.size() + currentPathStack.size();
                 }
             }
         }
-        cellGrid_[currentCoordinates.x][currentCoordinates.y].getRectForShowCurrentCell()->setVisible(false);
-        currentPathStack.pop();
-        Coordinate tempCord = Coordinate(currentCoordinates.x - currentPathStack.top().x, currentCoordinates.y - currentPathStack.top().y);
-        if (tempCord.x == 1)
+
+        /* Во избежание краша, вызванного нажатием стоп при пустом стеке (pop-аем пустой стек), что
+         * возможно, если в текущий путь не успела добавиться ни одна ячейка*/
+        if (currentPathStack.size() != 0)
         {
-            cellGrid_[currentCoordinates.x][currentCoordinates.y].getLeftWall()->setVisible(false);
-            cellGrid_[currentPathStack.top().x][currentPathStack.top().y].getRightWall()->setVisible(false);
-        }
-        if (tempCord.x == -1)
-        {
-            cellGrid_[currentCoordinates.x][currentCoordinates.y].getRightWall()->setVisible(false);
-            cellGrid_[currentPathStack.top().x][currentPathStack.top().y].getLeftWall()->setVisible(false);
-        }
-        if (tempCord.y == 1)
-        {
-            cellGrid_[currentCoordinates.x][currentCoordinates.y].getTopWall()->setVisible(false);
-            cellGrid_[currentPathStack.top().x][currentPathStack.top().y].getBotWall()->setVisible(false);
-        }
-        if (tempCord.y == -1)
-        {
-            cellGrid_[currentCoordinates.x][currentCoordinates.y].getBotWall()->setVisible(false);
-            cellGrid_[currentPathStack.top().x][currentPathStack.top().y].getTopWall()->setVisible(false);
-        }
-        while (currentPathStack.size() != 0)
-        {
-            cellsAlreadyInMaze.push_back(currentPathStack.top());
+            cellGrid_[currentCoordinates.x][currentCoordinates.y].getRectForShowCurrentCell()->setVisible(false);
             currentPathStack.pop();
+            // Для корректной отрисовки необходимо вызвать данную функцию
+            makeStepBack(currentCoordinates, currentPathStack.top(), false);
+
+            // Добавляем ячейки из пути в основной лабиринт
+            while (currentPathStack.size() != 0)
+            {
+                cellsAlreadyInMaze.push_back(currentPathStack.top());
+                currentPathStack.pop();
+            }
+            currentPathStack.clear();
         }
-        currentPathStack.clear();
         visitedCells = cellsAlreadyInMaze.size();
     }
 }
@@ -238,15 +213,49 @@ int Maze::checkNeighborsAndDecideWhichWayToGo(Coordinate currentCoordinates)
 }
 
 /*------------------------------------------------------------------------------------------------*/
-void Maze::interruptReceived()
+void Maze::chooseRandomNonAddedCoordinates(Coordinate &currentCoordinates, QVector<Coordinate> &cellsAlreadyInMaze)
 {
-    interruptFlag_ = true;
+    currentCoordinates.x = 0;
+    currentCoordinates.y = 0;
+
+    while (cellsAlreadyInMaze.contains(currentCoordinates))
+    {
+        currentCoordinates = Coordinate(QRandomGenerator::global()->generate() % mazeSize_,
+                                        QRandomGenerator::global()->generate() % mazeSize_);
+    }
+
+    cellGrid_[currentCoordinates.x][currentCoordinates.y].
+            getRectForShowCurrentCell()->setVisible(true);
+    cellGrid_[currentCoordinates.x][currentCoordinates.y].wasVisited();
 }
 
 /*------------------------------------------------------------------------------------------------*/
-bool Maze::generationLoopExitCondition(unsigned int &visitedCells)
+void Maze::makeStepBack(Coordinate currentCoordinates, Coordinate previousCoordinates, bool isWallsNeedToRebuild)
 {
-    return (!interruptFlag_ && visitedCells < mazeSize_ * mazeSize_);
+    cellGrid_[currentCoordinates.x][currentCoordinates.y].setUnvisited();
+
+    Coordinate difference = Coordinate(currentCoordinates.x - previousCoordinates.x,
+                                       currentCoordinates.y - previousCoordinates.y);
+    if (difference.x == 1)
+    {
+        cellGrid_[currentCoordinates.x][currentCoordinates.y].getLeftWall()->setVisible(isWallsNeedToRebuild);
+        cellGrid_[previousCoordinates.x][previousCoordinates.y].getRightWall()->setVisible(isWallsNeedToRebuild);
+    }
+    if (difference.x == -1)
+    {
+        cellGrid_[currentCoordinates.x][currentCoordinates.y].getRightWall()->setVisible(isWallsNeedToRebuild);
+        cellGrid_[previousCoordinates.x][previousCoordinates.y].getLeftWall()->setVisible(isWallsNeedToRebuild);
+    }
+    if (difference.y == 1)
+    {
+        cellGrid_[currentCoordinates.x][currentCoordinates.y].getTopWall()->setVisible(isWallsNeedToRebuild);
+        cellGrid_[previousCoordinates.x][previousCoordinates.y].getBotWall()->setVisible(isWallsNeedToRebuild);
+    }
+    if (difference.y == -1)
+    {
+        cellGrid_[currentCoordinates.x][currentCoordinates.y].getBotWall()->setVisible(isWallsNeedToRebuild);
+        cellGrid_[previousCoordinates.x][previousCoordinates.y].getTopWall()->setVisible(isWallsNeedToRebuild);
+    }
 }
 
 /*------------------------------------------------------------------------------------------------*/
@@ -368,28 +377,4 @@ void Maze::delay(int millisecondsWait)
     t.connect(&t, &QTimer::timeout, &loop, &QEventLoop::quit);
     t.start(millisecondsWait);
     loop.exec();
-}
-
-/*------------------------------------------------------------------------------------------------*/
-void Maze::resetGrid()
-{
-    for (auto row = cellGrid_.begin(); row != cellGrid_.end(); row++)
-    {
-        for (auto col = row->begin(); col != row->end(); col++)
-        {
-            col->resetCell();
-        }
-    }
-}
-
-/*------------------------------------------------------------------------------------------------*/
-bool Coordinate::operator==(const Coordinate &other) const
-{
-    return (x == other.x) && (y == other.y);
-}
-
-/*------------------------------------------------------------------------------------------------*/
-bool Coordinate::operator!=(const Coordinate &other) const
-{
-    return (x != other.x) || (y != other.y);
 }
