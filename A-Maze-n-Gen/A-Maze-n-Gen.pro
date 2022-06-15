@@ -11,6 +11,7 @@ SOURCES += \
     src/main.cpp \
     src/cell.cpp \
     src/maze.cpp \
+    src/coordinate.cpp \
     src/gui/mazesizeradiobutton.cpp \
     src/gui/startstoppushbutton.cpp \
     src/gui/mainwindow.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
 HEADERS += \
     include/cell.h \
     include/maze.h \
+    include/coordinate.h \
     include/gui/mazesizeradiobutton.h \
     include/gui/startstoppushbutton.h \
     include/gui/algorithmgeneratormenu.h \
