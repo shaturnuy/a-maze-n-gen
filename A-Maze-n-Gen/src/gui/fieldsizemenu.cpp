@@ -15,9 +15,9 @@ void FieldSizeMenu::initializeMenu()
 {
     setTextLabel("Field Size");
 
-    sizeFirstRadio_ = new MazeSizeRadioButton(5);
-    sizeSecondRadio_ = new MazeSizeRadioButton(10);
-    sizeThirdRadio_ = new MazeSizeRadioButton(15);
+    sizeFirstRadio_ = new MazeSizeRadioButton(10);
+    sizeSecondRadio_ = new MazeSizeRadioButton(15);
+    sizeThirdRadio_ = new MazeSizeRadioButton(20);
 
     addRadioButton(sizeFirstRadio_);
     addRadioButton(sizeSecondRadio_);
