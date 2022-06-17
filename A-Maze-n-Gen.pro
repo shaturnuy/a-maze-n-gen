@@ -32,6 +32,8 @@ HEADERS += \
     include/gui/mainwindow.h \
     include/gui/mazearea.h
 
+RC_FILE = resources/resources.rc
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
