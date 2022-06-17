@@ -48,7 +48,7 @@ void MainWindow::initializeMazeArea()
 /*------------------------------------------------------------------------------------------------*/
 void MainWindow::initializeMainWindow()
 {
-    setWindowTitle("A-Maze-n-Gen");
+    setWindowTitle("A-Maze-n-Gen v1.0");
     setWindowFlags(Qt::Window | Qt::MSWindowsFixedSizeDialogHint);
 
     mainLayout_ = new QHBoxLayout(this);
